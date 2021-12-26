@@ -1,5 +1,5 @@
 name: Hubcore
 version: '${version}'
-main: dev.foton.hubcore.Hubcore
+main: dev.foton.hubcore.Main
 api-version: 1.18
 authors: [ FotonDevTeam ]
