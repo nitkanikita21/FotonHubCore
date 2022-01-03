@@ -19,6 +19,7 @@ repositories {
 
 dependencies {
     compileOnly 'org.spigotmc:spigot-api:1.18.1-R0.1-SNAPSHOT'
+    compileOnly files("HubServer/plugins/AdvancedColorApi.jar")
 }
 
 def targetJavaVersion = 17
@@ -48,4 +49,8 @@ processResources {
 
 jar{
     destinationDir = file("./HubServer/plugins/")
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
 }

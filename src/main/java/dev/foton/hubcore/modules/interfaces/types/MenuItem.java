@@ -2,10 +2,13 @@ package dev.foton.hubcore.modules.interfaces.types;
 
 import dev.foton.hubcore.Main;
 import org.bukkit.Material;
+import org.bukkit.Sound;
+import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.util.Vector;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class MenuItem{
     protected Material icon;
@@ -74,6 +77,21 @@ public class MenuItem{
     }
 
     public void OnUse(InventoryClickEvent e) {
+        Player p = (Player) e.getWhoClicked();
+        if(getClickSound() != null){
+            p.playSound(p.getLocation(), getClickSound(),1f,0.7f);
+        }
+    }
 
+    public void playSound(Player p, Sound s){
+        p.playSound(p.getLocation(), s,1f,0.7f);
+    }
+
+    public Sound getClickSound(){
+        return null;
+    }
+
+    public List<String> getLore(){
+        return getDescription().stream().map(Main::format).collect(Collectors.toList());
     }
 }

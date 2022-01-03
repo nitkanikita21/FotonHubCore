@@ -7,7 +7,7 @@ import java.util.HashMap;
 
 import java.util.Map;
 
-public class Menu{
+public abstract class Menu{
     protected String name;
     protected String id;
     protected Map<String,MenuItem> elements = new HashMap<>();

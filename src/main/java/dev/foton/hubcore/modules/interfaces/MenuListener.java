@@ -39,7 +39,7 @@ public class MenuListener implements Listener {
                     MenuRefeshItem tg = (MenuRefeshItem) element;
                     tg.OnUse(e);
                     tg.OnUpdate();
-                    meta.setLore(tg.getDescription());
+                    meta.setLore(tg.getLore());
                     meta.setDisplayName(tg.getDisplayName());
                     item.setItemMeta(meta);
                     item.setType(tg.getIcon());

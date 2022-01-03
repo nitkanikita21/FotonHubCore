@@ -33,7 +33,7 @@ public class DispancerMenu extends Menu {
             ItemStack item = new ItemStack(el.getIcon());
             ItemMeta meta = item.getItemMeta();
             meta.setDisplayName(el.getDisplayName());
-            meta.setLore(el.getDescription());
+            meta.setLore(el.getLore());
             item.setAmount(el.getCount());
             meta.getPersistentDataContainer().set(new NamespacedKey(Main.i,"elementId"), PersistentDataType.STRING, el.getId());
             meta.getPersistentDataContainer().set(new NamespacedKey(Main.i,"menuId"), PersistentDataType.STRING, this.getId());

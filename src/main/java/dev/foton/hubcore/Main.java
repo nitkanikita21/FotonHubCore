@@ -3,9 +3,12 @@ package dev.foton.hubcore;
 import dev.foton.hubcore.modules.interfaces.InterfacesServerListener;
 import dev.foton.hubcore.modules.interfaces.MenuListener;
 import dev.foton.hubcore.modules.interfaces.MenuManager;
+import dev.foton.hubcore.modules.interfaces.items.SelectButton;
 import dev.foton.hubcore.modules.interfaces.items.Text;
 import dev.foton.hubcore.modules.interfaces.items.sub.ScriptableButton;
 import dev.foton.hubcore.modules.interfaces.menu.DispancerMenu;
+import me.NitkaNikita.AdvancedColorAPI.api.types.AdvancedColor;
+import me.NitkaNikita.AdvancedColorAPI.api.types.GradientedText;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -71,10 +74,27 @@ public final class Main extends JavaPlugin {
             humanEntity.sendMessage(Main.format("&cOperator &7mode active"));
         });
 
+        SelectButton selectBtn = new SelectButton(Material.BOOK ,"&aSelect variant","select",new Vector(1,1,1),1);
+
+        ArrayList<AdvancedColor> colors1 = new ArrayList<>();
+        colors1.add(new AdvancedColor("fc8003"));
+        colors1.add(new AdvancedColor("fc0373"));
+        GradientedText master = GradientedText.generateGradient("&lDUNGEON MASTER", colors1, 0.4);
+
+        selectBtn.addVar(master.getFullText().toLegacyText());
+        selectBtn.addVar("eSports");
+        selectBtn.addVar("HARD");
+        selectBtn.addVar("&bPRO");
+        selectBtn.addVar("Medium");
+        selectBtn.addVar("Normal");
+        selectBtn.addVar("&aEasy");
+        selectBtn.addVar("noob");
+        selectBtn.addVar("very noob");
 
         testMenu.addElement(btnOp);
         testMenu.addElement(btnGm);
         testMenu.addElement(test_lable);
+        testMenu.addElement(selectBtn);
         MenuManager.addMenu(testMenu);
 
         getServer().getPluginManager().registerEvents(new InterfacesServerListener(),this);
