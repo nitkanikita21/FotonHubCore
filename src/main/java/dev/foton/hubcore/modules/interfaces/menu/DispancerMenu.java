@@ -1,7 +1,6 @@
 package dev.foton.hubcore.modules.interfaces.menu;
 
 import dev.foton.hubcore.Main;
-import dev.foton.hubcore.modules.interfaces.types.IMenuItem;
 import dev.foton.hubcore.modules.interfaces.types.Menu;
 import dev.foton.hubcore.modules.interfaces.types.MenuItem;
 import org.bukkit.Bukkit;
@@ -24,10 +23,11 @@ public class DispancerMenu extends Menu {
 
     @Override
     public Inventory getInventory() {
-        Inventory menu = Bukkit.createInventory(null, InventoryType.DISPENSER,Main.format(name));
+        String format = Main.format(name);
+        Inventory menu = Bukkit.createInventory(null, InventoryType.DISPENSER, format);
 
         int y = 0;
-        for (IMenuItem element : elements.values()) {
+        for (MenuItem element : elements.values()) {
             MenuItem el = (MenuItem)element;
 
             ItemStack item = new ItemStack(el.getIcon());

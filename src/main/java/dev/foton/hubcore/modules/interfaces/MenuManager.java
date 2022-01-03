@@ -1,7 +1,6 @@
 package dev.foton.hubcore.modules.interfaces;
 
 
-import dev.foton.hubcore.modules.interfaces.types.IMenu;
 import dev.foton.hubcore.modules.interfaces.types.Menu;
 import org.bukkit.entity.Player;
 
@@ -9,9 +8,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MenuManager {
-    private static Map<String, IMenu> menus = new HashMap<>();
+    private static Map<String, Menu> menus = new HashMap<>();
 
-    public static IMenu getMenu(String id){
+    public static Menu getMenu(String id){
         boolean b = menus.containsKey(id);
         return menus.get(id);
     }
@@ -23,11 +22,11 @@ public class MenuManager {
             menus.put(menu.getId(),menu);
         }
     }
-    public static IMenu removeMenu(String id){
+    public static Menu removeMenu(String id){
         return menus.remove(id);
     }
 
-    public static void open(Player p, IMenu menu){
+    public static void open(Player p, Menu menu){
         p.openInventory(menu.getInventory());
     }
 }

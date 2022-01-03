@@ -7,7 +7,7 @@ import org.bukkit.util.Vector;
 
 import java.util.List;
 
-public class MenuItem implements IMenuItem{
+public class MenuItem{
     protected Material icon;
     protected String displayName;
     protected String id;
@@ -48,37 +48,31 @@ public class MenuItem implements IMenuItem{
         description.remove(i);
     }
 
-    @Override
     public Material getIcon() {
         return icon;
     }
 
-    @Override
     public String getDisplayName() {
         return Main.format(displayName);
     }
 
-    @Override
+
     public String getId() {
         return id;
     }
 
-    @Override
     public List<String> getDescription() {
         return description;
     }
 
-    @Override
     public Vector getPosition() {
         return position;
     }
 
-    @Override
     public int getCount() {
         return count;
     }
 
-    @Override
     public void OnUse(InventoryClickEvent e) {
 
     }

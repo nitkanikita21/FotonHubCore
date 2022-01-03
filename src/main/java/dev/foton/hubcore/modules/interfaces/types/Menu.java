@@ -7,22 +7,22 @@ import java.util.HashMap;
 
 import java.util.Map;
 
-public class Menu implements IMenu{
+public class Menu{
     protected String name;
     protected String id;
-    protected Map<String,IMenuItem> elements = new HashMap<>();
+    protected Map<String,MenuItem> elements = new HashMap<>();
 
     public Menu(String name, String id){
         this.name = name;
         this.id = id;
     }
 
-    @Override
+
     public String getName() {
         return name;
     }
 
-    @Override
+
     public String getId() {
         return id;
     }
@@ -31,19 +31,19 @@ public class Menu implements IMenu{
         elements.clear();
     }
 
-    @Override
-    public void addElement(IMenuItem el) {
+
+    public void addElement(MenuItem el) {
         if(!elements.containsKey(el.getId())){
             elements.put(el.getId(),el);
         }
     }
 
-    @Override
-    public IMenuItem getElement(String id) {
+
+    public MenuItem getElement(String id) {
         return elements.get(id);
     }
 
-    @Override
+
     public Inventory getInventory() {
         return null;
     }

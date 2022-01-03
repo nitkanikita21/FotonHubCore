@@ -2,7 +2,7 @@ package dev.foton.hubcore.modules.interfaces;
 
 import dev.foton.hubcore.Main;
 import dev.foton.hubcore.modules.interfaces.items.Button;
-import dev.foton.hubcore.modules.interfaces.types.IMenu;
+import dev.foton.hubcore.modules.interfaces.types.Menu;
 import dev.foton.hubcore.modules.interfaces.types.MenuItem;
 import dev.foton.hubcore.modules.interfaces.types.MenuRefeshItem;
 import org.bukkit.NamespacedKey;
@@ -30,7 +30,7 @@ public class MenuListener implements Listener {
             String menuId = (String) meta.getPersistentDataContainer().get(new NamespacedKey(Main.i,"menuId"), PersistentDataType.STRING);
 
             if(elementId != null){
-                IMenu menu = MenuManager.getMenu(menuId);
+                Menu menu = MenuManager.getMenu(menuId);
                 MenuItem element = (MenuItem) menu.getElement(elementId);
                 if(element instanceof Button){
                     Button btn = (Button) element;

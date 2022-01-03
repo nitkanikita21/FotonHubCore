@@ -1,8 +1,8 @@
 package dev.foton.hubcore.modules.interfaces.menu;
 
 import dev.foton.hubcore.Main;
-import dev.foton.hubcore.modules.interfaces.types.IMenuItem;
 import dev.foton.hubcore.modules.interfaces.types.Menu;
+import dev.foton.hubcore.modules.interfaces.types.MenuItem;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 
@@ -27,7 +27,7 @@ public class ChestMenu extends Menu {
     public Inventory getInventory() {
         Inventory menu = Bukkit.createInventory(null,height*9,format(name));
 
-        for (IMenuItem el : elements.values()) {
+        for (MenuItem el : elements.values()) {
 
             ItemStack item = new ItemStack(el.getIcon());
             ItemMeta meta = item.getItemMeta();
