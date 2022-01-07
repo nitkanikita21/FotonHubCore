@@ -20,9 +20,5 @@ public class MenuRefeshItem extends MenuItem{
     @Override
     public void OnUse(InventoryClickEvent e) {
         super.OnUse(e);
-        if(e.getWhoClicked() instanceof Player){
-            Player p = (Player) e.getWhoClicked();
-            p.playSound(p.getLocation(), Sound.UI_BUTTON_CLICK,1f,0.7f);
-        }
     }
 }

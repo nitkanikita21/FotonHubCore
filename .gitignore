@@ -118,5 +118,3 @@ run/
 !gradle-wrapper.jar
 
 HubServer
-!HubServer/paper.jar
-!HubServer/plugins

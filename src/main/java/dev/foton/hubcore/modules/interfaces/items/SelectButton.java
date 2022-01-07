@@ -54,7 +54,7 @@ public class SelectButton extends MenuRefeshItem {
         List<String> lore = new ArrayList<>();
 
         for (int i = 0; i < vars.size(); i++) {
-            lore.add((i == select ? ChatColor.GREEN + ">" : ChatColor.GRAY + " ")+" "+vars.get(i));
+            lore.add((i == select ? ChatColor.GREEN + "◆" : ChatColor.GRAY + "◇")+" "+vars.get(i));
         }
 
         return lore;

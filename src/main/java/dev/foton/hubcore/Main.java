@@ -1,17 +1,22 @@
 package dev.foton.hubcore;
 
-import dev.foton.hubcore.modules.interfaces.InterfacesServerListener;
+import dev.foton.hubcore.mechanics.MicroMechanicsListener;
+import dev.foton.hubcore.modules.commands.CustomCommandBuilder;
 import dev.foton.hubcore.modules.interfaces.MenuListener;
 import dev.foton.hubcore.modules.interfaces.MenuManager;
 import dev.foton.hubcore.modules.interfaces.items.SelectButton;
 import dev.foton.hubcore.modules.interfaces.items.Text;
+import dev.foton.hubcore.modules.interfaces.items.sub.ImageLabel;
 import dev.foton.hubcore.modules.interfaces.items.sub.ScriptableButton;
 import dev.foton.hubcore.modules.interfaces.menu.DispancerMenu;
-import me.NitkaNikita.AdvancedColorAPI.api.types.AdvancedColor;
-import me.NitkaNikita.AdvancedColorAPI.api.types.GradientedText;
+import me.NitkaNikita.AdvancedColorAPI.api.types.builders.GradientTextBuilder;
+import me.NitkaNikita.AdvancedColorAPI.api.types.builders.SolidTextBuilder;
+import me.nitkanikita.particlevisualeffects.ParticleModuleListener;
+import me.nitkanikita.particlevisualeffects.effectengine.RenderEffectRunnable;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.Vector;
 
@@ -30,10 +35,15 @@ public final class Main extends JavaPlugin {
         // Plugin startup logic
         i = this;
 
+        //#region REMOVE
         getServer().getLogger().info(ChatColor.GREEN+"[!!!] SERVER READY TO WORK");
         getServer().getLogger().info(ChatColor.GREEN+"[!!!] SERVER READY TO WORK");
 
-        DispancerMenu testMenu = new DispancerMenu("&3Test Dispancer Menu", "test_menu");
+        DispancerMenu testMenu = new DispancerMenu(new GradientTextBuilder()
+                .text("&lDUNGEON MASTER")
+                .addColor("#42f5a4").addColor("#fc0373")
+                .blur(0.4)
+                .build().getJsonText(), "test_menu");
 
         Text test_lable = new Text(
                 Material.BIRCH_SIGN,
@@ -76,29 +86,52 @@ public final class Main extends JavaPlugin {
 
         SelectButton selectBtn = new SelectButton(Material.BOOK ,"&aSelect variant","select",new Vector(1,1,1),1);
 
-        ArrayList<AdvancedColor> colors1 = new ArrayList<>();
-        colors1.add(new AdvancedColor("fc8003"));
-        colors1.add(new AdvancedColor("fc0373"));
-        GradientedText master = GradientedText.generateGradient("&lDUNGEON MASTER", colors1, 0.4);
+        selectBtn.addVar(
+                new GradientTextBuilder()
+                        .text("&lDUNGEON MASTER")
+                        .addColor("#fc8003").addColor("#fc0373")
+                        .blur(0.4)
+                        .build().getJsonText()
+        );
 
-        selectBtn.addVar(master.getFullText().toLegacyText());
         selectBtn.addVar("eSports");
         selectBtn.addVar("HARD");
-        selectBtn.addVar("&bPRO");
+        selectBtn.addVar(new SolidTextBuilder().text("&l&oPRO").color("#42f5a4").build().getJsonText());
         selectBtn.addVar("Medium");
         selectBtn.addVar("Normal");
         selectBtn.addVar("&aEasy");
         selectBtn.addVar("noob");
         selectBtn.addVar("very noob");
 
+        ImageLabel l = new ImageLabel(Material.GREEN_TERRACOTTA,"&lOk and","img",new Vector(3,1,1));
+
+        testMenu.addElement(l);
         testMenu.addElement(btnOp);
         testMenu.addElement(btnGm);
         testMenu.addElement(test_lable);
         testMenu.addElement(selectBtn);
         MenuManager.addMenu(testMenu);
 
-        getServer().getPluginManager().registerEvents(new InterfacesServerListener(),this);
+        //#endregion
+
+        CustomCommandBuilder.setPlugin(this);
+
+        getServer().getScheduler().scheduleSyncRepeatingTask(this,new RenderEffectRunnable(),0,1);
+
         getServer().getPluginManager().registerEvents(new MenuListener(),this);
+        getServer().getPluginManager().registerEvents(new ParticleModuleListener(),this);
+        getServer().getPluginManager().registerEvents(new MicroMechanicsListener(),this);
+
+        //#region тоже удалить
+
+        new CustomCommandBuilder()
+                .name("menu").executor((commandSender, strings) -> {
+            if (commandSender instanceof Player){
+                MenuManager.open((Player) commandSender,MenuManager.getMenu("test_menu"));
+            }
+        }).registryPlugin();
+        //#endregion
+
     }
 
     @Override
