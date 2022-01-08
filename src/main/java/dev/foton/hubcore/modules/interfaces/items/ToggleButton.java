@@ -4,6 +4,7 @@ import dev.foton.hubcore.modules.interfaces.types.MenuItem;
 import dev.foton.hubcore.modules.interfaces.types.MenuRefeshItem;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.util.Vector;
 
@@ -25,8 +26,13 @@ public class ToggleButton extends MenuRefeshItem {
     }
 
     @Override
+    public Sound getClickSound() {
+        return Sound.UI_BUTTON_CLICK;
+    }
+
+    @Override
     public String getDisplayName() {
-        return ChatColor.GRAY + "["+(isActive ? ChatColor.GREEN+"✔" : ChatColor.RED+"✖") + ChatColor.GRAY + "] "+super.getDisplayName();
+        return ChatColor.GRAY + ""+(isActive ? ChatColor.GREEN+"☑" : ChatColor.RED+"☒") + ChatColor.GRAY + " | "+super.getDisplayName();
     }
 
     @Override

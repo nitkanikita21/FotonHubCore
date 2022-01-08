@@ -4,17 +4,14 @@ import dev.foton.hubcore.mechanics.MicroMechanicsListener;
 import dev.foton.hubcore.modules.commands.CustomCommandBuilder;
 import dev.foton.hubcore.modules.interfaces.MenuListener;
 import dev.foton.hubcore.modules.interfaces.MenuManager;
-import dev.foton.hubcore.modules.interfaces.items.SelectButton;
 import dev.foton.hubcore.modules.interfaces.items.Text;
-import dev.foton.hubcore.modules.interfaces.items.sub.ImageLabel;
-import dev.foton.hubcore.modules.interfaces.items.sub.ScriptableButton;
+import dev.foton.hubcore.modules.interfaces.items.ToggleButton;
+import dev.foton.hubcore.modules.interfaces.items.sub.EmptyElement;
 import dev.foton.hubcore.modules.interfaces.menu.DispancerMenu;
 import me.NitkaNikita.AdvancedColorAPI.api.types.builders.GradientTextBuilder;
 import me.NitkaNikita.AdvancedColorAPI.api.types.builders.SolidTextBuilder;
 import me.nitkanikita.particlevisualeffects.ParticleModuleListener;
 import me.nitkanikita.particlevisualeffects.effectengine.RenderEffectRunnable;
-import org.bukkit.ChatColor;
-import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -35,84 +32,33 @@ public final class Main extends JavaPlugin {
         // Plugin startup logic
         i = this;
 
-        //#region REMOVE
-        getServer().getLogger().info(ChatColor.GREEN+"[!!!] SERVER READY TO WORK");
-        getServer().getLogger().info(ChatColor.GREEN+"[!!!] SERVER READY TO WORK");
 
-        DispancerMenu testMenu = new DispancerMenu(new GradientTextBuilder()
-                .text("&lDUNGEON MASTER")
+
+        DispancerMenu welcomeMenu = new DispancerMenu(new GradientTextBuilder()
+                .text("&lДобро пожаловать!")
                 .addColor("#42f5a4").addColor("#fc0373")
                 .blur(0.4)
-                .build().getJsonText(), "test_menu");
+                .build().getJsonText(), "welcome");
 
-        Text test_lable = new Text(
-                Material.BIRCH_SIGN,
-                "&3&lHello!",
-                "test_lable",
-                new ArrayList<>(),
-                new Vector(2, 2, 1),
-                1
-        );
-        test_lable.addDescriptionLine("&2this is very cool server!");
-        test_lable.addDescriptionLine("&c&l<3");
-
-        ScriptableButton btnGm = new ScriptableButton(
-                Material.DIAMOND,
-                "&6Creative",
-                "gm",
-                new ArrayList<>(),
-                new Vector(2, 3, 1),
-                1
-        );
-        btnGm.addDescriptionLine("&7Set your gamemode to &6Creative");
-        btnGm.setScript(humanEntity -> {
-            humanEntity.setGameMode(GameMode.CREATIVE);
-            humanEntity.sendMessage(Main.format("&7Gamemode &6Creative"));
-        });
-
-        ScriptableButton btnOp = new ScriptableButton(
-                Material.COMMAND_BLOCK,
-                "&cOperator",
-                "op",
-                new ArrayList<>(),
-                new Vector(2, 1, 1),
-                1
-        );
-        btnOp.addDescriptionLine("&7Give &cOperator");
-        btnOp.setScript(humanEntity -> {
-            humanEntity.setOp(true);
-            humanEntity.sendMessage(Main.format("&cOperator &7mode active"));
-        });
-
-        SelectButton selectBtn = new SelectButton(Material.BOOK ,"&aSelect variant","select",new Vector(1,1,1),1);
-
-        selectBtn.addVar(
-                new GradientTextBuilder()
-                        .text("&lDUNGEON MASTER")
-                        .addColor("#fc8003").addColor("#fc0373")
-                        .blur(0.4)
-                        .build().getJsonText()
+        Text welcomeText = new Text(
+                Material.ACACIA_SIGN,
+                new SolidTextBuilder().text("&lДобро пожаловать на сервер!").color("#03fc94").build().getJsonText(),
+                "welcome_label",new ArrayList<>(),
+                new Vector(2,2,1), 1
         );
 
-        selectBtn.addVar("eSports");
-        selectBtn.addVar("HARD");
-        selectBtn.addVar(new SolidTextBuilder().text("&l&oPRO").color("#42f5a4").build().getJsonText());
-        selectBtn.addVar("Medium");
-        selectBtn.addVar("Normal");
-        selectBtn.addVar("&aEasy");
-        selectBtn.addVar("noob");
-        selectBtn.addVar("very noob");
+        ToggleButton noShow = new ToggleButton("&aНе показывать снова","noShow",new ArrayList<>(),
+                new Vector(2,3,1),1
+        );
 
-        ImageLabel l = new ImageLabel(Material.GREEN_TERRACOTTA,"&lOk and","img",new Vector(3,1,1));
 
-        testMenu.addElement(l);
-        testMenu.addElement(btnOp);
-        testMenu.addElement(btnGm);
-        testMenu.addElement(test_lable);
-        testMenu.addElement(selectBtn);
-        MenuManager.addMenu(testMenu);
+        welcomeMenu.addElement(new EmptyElement(new Vector(2,1,1)));
+        welcomeMenu.addElement(noShow);
+        welcomeMenu.addElement(welcomeText);
 
-        //#endregion
+
+        MenuManager.addMenu(welcomeMenu);
+
 
         CustomCommandBuilder.setPlugin(this);
 
@@ -122,12 +68,12 @@ public final class Main extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new ParticleModuleListener(),this);
         getServer().getPluginManager().registerEvents(new MicroMechanicsListener(),this);
 
-        //#region тоже удалить
+        //#region удалить
 
         new CustomCommandBuilder()
                 .name("menu").executor((commandSender, strings) -> {
             if (commandSender instanceof Player){
-                MenuManager.open((Player) commandSender,MenuManager.getMenu("test_menu"));
+                MenuManager.open((Player) commandSender,MenuManager.getMenu("welcome"));
             }
         }).registryPlugin();
         //#endregion
