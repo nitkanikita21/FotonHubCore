@@ -7,6 +7,7 @@ import dev.foton.hubcore.modules.interfaces.MenuManager;
 import dev.foton.hubcore.modules.interfaces.items.Text;
 import dev.foton.hubcore.modules.interfaces.items.ToggleButton;
 import dev.foton.hubcore.modules.interfaces.items.sub.EmptyElement;
+import dev.foton.hubcore.modules.interfaces.items.sub.ScriptableButton;
 import dev.foton.hubcore.modules.interfaces.menu.DispancerMenu;
 import me.NitkaNikita.AdvancedColorAPI.api.types.builders.GradientTextBuilder;
 import me.NitkaNikita.AdvancedColorAPI.api.types.builders.SolidTextBuilder;
@@ -35,26 +36,32 @@ public final class Main extends JavaPlugin {
 
 
         DispancerMenu welcomeMenu = new DispancerMenu(new GradientTextBuilder()
-                .text("&lДобро пожаловать!")
+                .text("&lКуда отправимся?")
                 .addColor("#42f5a4").addColor("#fc0373")
                 .blur(0.4)
-                .build().getJsonText(), "welcome");
+                .build().getJsonText(), "menu_go_to");
 
-        Text welcomeText = new Text(
-                Material.ACACIA_SIGN,
-                new SolidTextBuilder().text("&lДобро пожаловать на сервер!").color("#03fc94").build().getJsonText(),
-                "welcome_label",new ArrayList<>(),
-                new Vector(2,2,1), 1
+        ScriptableButton campfireBtn = new ScriptableButton(
+                Material.CAMPFIRE,
+                "&7Режим "+new SolidTextBuilder().color("#42f5a4").text("Campfire").build().getJsonText(),
+                "campfireBtn", new ArrayList<>(), new Vector(2,2,1),
+                1
         );
 
-        ToggleButton noShow = new ToggleButton("&aНе показывать снова","noShow",new ArrayList<>(),
-                new Vector(2,3,1),1
-        );
+        campfireBtn.addDescriptionLine("");
+        campfireBtn.addDescriptionLine(new SolidTextBuilder().color("#42f5a4").text("Campfire").build().getJsonText() + "&7 - Lorem ipsum dolor sit amet, consectetur adipiscing elit. ");
+        campfireBtn.addDescriptionLine("&7Duis id massa efficitur, congue ex quis, rhoncus sem.");
+        campfireBtn.addDescriptionLine("&7Nunc bibendum nisl hendrerit tellus ultrices feugiat.");
+        campfireBtn.addDescriptionLine("&7Aenean placerat, augue et porta vulputate.");
+        campfireBtn.addDescriptionLine("");
+        campfireBtn.addDescriptionLine("");
+        campfireBtn.addDescriptionLine("&7Сейчас играют &d65 &7игроков");
+
+        welcomeMenu.addElement(campfireBtn);
 
 
-        welcomeMenu.addElement(new EmptyElement(new Vector(2,1,1)));
-        welcomeMenu.addElement(noShow);
-        welcomeMenu.addElement(welcomeText);
+
+
 
 
         MenuManager.addMenu(welcomeMenu);
@@ -73,7 +80,7 @@ public final class Main extends JavaPlugin {
         new CustomCommandBuilder()
                 .name("menu").executor((commandSender, strings) -> {
             if (commandSender instanceof Player){
-                MenuManager.open((Player) commandSender,MenuManager.getMenu("welcome"));
+                MenuManager.open((Player) commandSender,MenuManager.getMenu("menu_go_to"));
             }
         }).registryPlugin();
         //#endregion

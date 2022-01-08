@@ -27,12 +27,12 @@ public class MicroMechanicsListener implements Listener {
                 "Project",10,60,30
         );
 
-        p.getWorld().playSound(p.getLocation(),Sound.ENTITY_EXPERIENCE_ORB_PICKUP, SoundCategory.RECORDS,0.5f,1f);
+        p.getWorld().playSound(p.getLocation(),Sound.UI_TOAST_IN, SoundCategory.RECORDS,0.5f,1f);
 
 
 
         Bukkit.getScheduler().scheduleSyncDelayedTask(Main.i,() -> {
-            MenuManager.open(p,MenuManager.getMenu("welcome"));
+            MenuManager.open(p,MenuManager.getMenu("menu_go_to"));
         },60);
     }
 }
