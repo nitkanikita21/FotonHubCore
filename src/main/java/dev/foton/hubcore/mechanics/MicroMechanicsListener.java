@@ -3,7 +3,9 @@ package dev.foton.hubcore.mechanics;
 import dev.foton.hubcore.Main;
 import dev.foton.hubcore.modules.interfaces.MenuManager;
 import me.NitkaNikita.AdvancedColorAPI.api.types.builders.GradientTextBuilder;
+
 import org.bukkit.Bukkit;
+
 import org.bukkit.Sound;
 import org.bukkit.SoundCategory;
 import org.bukkit.entity.Player;
@@ -27,8 +29,10 @@ public class MicroMechanicsListener implements Listener {
 
         p.getWorld().playSound(p.getLocation(),Sound.ENTITY_EXPERIENCE_ORB_PICKUP, SoundCategory.RECORDS,0.5f,1f);
 
+
+
         Bukkit.getScheduler().scheduleSyncDelayedTask(Main.i,() -> {
-            MenuManager.open(p,MenuManager.getMenu("test_menu"));
+            MenuManager.open(p,MenuManager.getMenu("welcome"));
         },60);
     }
 }

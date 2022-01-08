@@ -15,11 +15,15 @@ repositories {
         name = 'sonatype'
         url = 'https://oss.sonatype.org/content/groups/public/'
     }
+    maven {
+        url = "https://papermc.io/repo/repository/maven-public/"
+    }
 }
 
 dependencies {
     compileOnly 'org.spigotmc:spigot-api:1.18.1-R0.1-SNAPSHOT'
-    compileOnly files("HubServer/plugins/AdvancedColorApi.jar")
+    compileOnly "io.papermc.paper:paper-api:1.18.1-R0.1-SNAPSHOT"
+    compileOnly files("libs/AdvancedColorApi.jar")
 }
 
 def targetJavaVersion = 17
@@ -45,10 +49,6 @@ processResources {
     filesMatching('plugin.yml') {
         expand props
     }
-}
-
-jar{
-    destinationDir = file("./HubServer/plugins/")
 }
 
 tasks.withType(JavaCompile) {

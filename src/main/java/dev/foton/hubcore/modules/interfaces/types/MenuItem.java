@@ -36,6 +36,30 @@ public class MenuItem{
         position.setY(position.getY()-1);
     }
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
+
+    public void setDescription(List<String> description) {
+        this.description = description;
+    }
+
+    public void setIcon(Material icon) {
+        this.icon = icon;
+    }
+
+    public void setPosition(Vector position) {
+        this.position = position;
+    }
+
     public void setEnchanted(boolean enchanted) {
         this.enchanted = enchanted;
     }
@@ -58,7 +82,6 @@ public class MenuItem{
     public String getDisplayName() {
         return Main.format(displayName);
     }
-
 
     public String getId() {
         return id;

@@ -10,9 +10,7 @@ import java.util.List;
 import java.util.function.Consumer;
 
 public class ScriptableButton extends Button {
-    private Consumer<HumanEntity> script = (h)->{
-        return;
-    };
+    private Consumer<HumanEntity> script = (h)->{};
 
     public ScriptableButton(Material icon, String displayName, String id, List<String> description, Vector position, int count) {
         super(icon, displayName, id, description, position, count);

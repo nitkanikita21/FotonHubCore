@@ -13,7 +13,6 @@ public class CustomCommand implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         lambda.accept(sender,args);
         return true;
-
     }
 
     public CustomCommand(BiConsumer<CommandSender, String[]> script ){
