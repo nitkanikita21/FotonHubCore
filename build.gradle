@@ -30,7 +30,6 @@ repositories {
 dependencies {
     compileOnly 'org.spigotmc:spigot-api:1.18.1-R0.1-SNAPSHOT'
     compileOnly "io.papermc.paper:paper-api:1.18.1-R0.1-SNAPSHOT"
-    compileOnly "com.github.juliarn:npc-lib:2.6-RELEASE"
     compileOnly group: "com.comphenix.protocol", name: "ProtocolLib", version: "4.7.0";
     compileOnly files("libs/AdvancedColorApi.jar")
 }

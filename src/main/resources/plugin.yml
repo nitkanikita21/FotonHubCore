@@ -6,7 +6,7 @@ authors: [ FotonDevTeam ]
 depend:
   - ProtocolLib
   - AdvancedColorAPI
-  - PlaceholdersAPI
+  - PlaceholderAPI
 commands:
   menu:
     usage: /menu
