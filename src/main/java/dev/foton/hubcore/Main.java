@@ -1,6 +1,7 @@
 package dev.foton.hubcore;
 
 import dev.foton.hubcore.mechanics.MicroMechanicsListener;
+import dev.foton.hubcore.mechanics.NPCManager;
 import dev.foton.hubcore.modules.commands.CustomCommandBuilder;
 import dev.foton.hubcore.modules.interfaces.MenuListener;
 import dev.foton.hubcore.modules.interfaces.MenuManager;
@@ -16,6 +17,7 @@ import me.nitkanikita.particlevisualeffects.ParticleModuleListener;
 import me.nitkanikita.particlevisualeffects.effectengine.RenderEffectRunnable;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.Vector;
 
@@ -40,10 +42,12 @@ public final class Main extends JavaPlugin {
 
         getServer().getScheduler().scheduleSyncRepeatingTask(this,new RenderEffectRunnable(),0,1);
 
-        getServer().getPluginManager().registerEvents(new MenuListener(),this);
-        getServer().getPluginManager().registerEvents(new ParticleModuleListener(),this);
-        getServer().getPluginManager().registerEvents(new MicroMechanicsListener(),this);
+        PluginManager pluginManager = getServer().getPluginManager();
+        pluginManager.registerEvents(new MenuListener(),this);
+        pluginManager.registerEvents(new ParticleModuleListener(),this);
+        pluginManager.registerEvents(new MicroMechanicsListener(),this);
 
+        pluginManager.registerEvents(NPCManager.getInstance(),this);
 
         new CustomCommandBuilder()
                 .name("games").executor((commandSender, strings) -> {
@@ -58,6 +62,15 @@ public final class Main extends JavaPlugin {
                 MenuManager.open((Player) commandSender,MenuManager.getMenu("menu_all_menu"));
             }
         }).registryPlugin();
+
+        new CustomCommandBuilder()
+                .name("spawnnpc").executor((commandSender, strings) -> {
+            if (commandSender instanceof Player){
+                Player p = (Player) commandSender;
+                NPCManager.getInstance().appendNPC(p.getLocation(),null);
+            }
+        }).registryPlugin();
+
 
     }
 
