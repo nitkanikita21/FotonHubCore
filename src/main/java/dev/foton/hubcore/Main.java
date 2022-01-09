@@ -1,13 +1,11 @@
 package dev.foton.hubcore;
 
 import dev.foton.hubcore.mechanics.MicroMechanicsListener;
-import dev.foton.hubcore.mechanics.NPCManager;
+import dev.foton.hubcore.mechanics.npc.NPCManager;
+import dev.foton.hubcore.mechanics.servermanager.ServerConnectionManager;
 import dev.foton.hubcore.modules.commands.CustomCommandBuilder;
 import dev.foton.hubcore.modules.interfaces.MenuListener;
 import dev.foton.hubcore.modules.interfaces.MenuManager;
-import dev.foton.hubcore.modules.interfaces.items.Text;
-import dev.foton.hubcore.modules.interfaces.items.ToggleButton;
-import dev.foton.hubcore.modules.interfaces.items.sub.EmptyElement;
 import dev.foton.hubcore.modules.interfaces.items.sub.ScriptableButton;
 import dev.foton.hubcore.modules.interfaces.menu.ChestMenu;
 import dev.foton.hubcore.modules.interfaces.menu.DispancerMenu;
@@ -47,7 +45,7 @@ public final class Main extends JavaPlugin {
         pluginManager.registerEvents(new ParticleModuleListener(),this);
         pluginManager.registerEvents(new MicroMechanicsListener(),this);
 
-        pluginManager.registerEvents(NPCManager.getInstance(),this);
+        this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
 
         new CustomCommandBuilder()
                 .name("games").executor((commandSender, strings) -> {
@@ -67,7 +65,9 @@ public final class Main extends JavaPlugin {
                 .name("spawnnpc").executor((commandSender, strings) -> {
             if (commandSender instanceof Player){
                 Player p = (Player) commandSender;
-                NPCManager.getInstance().appendNPC(p.getLocation(),null);
+                NPCManager.getInstance().appendGameNPC(p.getLocation(),strings[0],player -> {
+                    ServerConnectionManager.connect(player,strings[1]);
+                });
             }
         }).registryPlugin();
 

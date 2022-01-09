@@ -1,4 +1,4 @@
-package dev.foton.hubcore.mechanics;
+package dev.foton.hubcore.mechanics.npc;
 
 import com.github.juliarn.npc.NPC;
 import com.github.juliarn.npc.NPCPool;
@@ -19,8 +19,11 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
+import java.util.function.Consumer;
 
 public class NPCManager implements Listener {
     private static final NPCManager instance = new NPCManager();
@@ -33,6 +36,7 @@ public class NPCManager implements Listener {
 
     private final Random random;
 
+    public static Map<NPC,Consumer<Player>> scriptsNpcs = new HashMap<>();
 
     public NPCManager(){
         this.npcPool = NPCPool.builder(Main.i)
@@ -57,50 +61,31 @@ public class NPCManager implements Listener {
     }
 
 
-    /**
-     * Appends a new NPC to the pool.
-     *
-     * @param location       The location the NPC will be spawned at
-     * @param excludedPlayer A player which will not see the NPC
-     */
-    public void appendNPC(Location location, Player excludedPlayer) {
-        // building the NPC
-        NPC npc = NPC.builder()
-                .profile(this.createProfile())
-                .location(location)
-                .imitatePlayer(false)
-                .lookAtPlayer(false)
-                // appending it to the NPC pool
-                .build(this.npcPool);
-
-        if (excludedPlayer != null) {
-            // adding the excluded player which will not see the NPC
-            npc.addExcludedPlayer(excludedPlayer);
-        }
-    }
-
-    /**
-     * Creates an example profile for NPCs.
-     *
-     * @return The new profile
-     */
-    public Profile createProfile() {
+    public void appendGameNPC(Location location, String name, Consumer<Player> script) {
         Profile profile = new Profile(UUID.fromString("fdef0011-1c58-40c8-bfef-0bdcb1495938"));
         // Synchronously completing the profile, as we only created the profile with a UUID.
         // Through this, the name and textures will be filled in.
         profile.complete();
 
         // we want to keep the textures, but change the name and UUID.
-        profile.setName("Notch");
+        profile.setName(name);
         // with a UUID like this, the NPC can play LabyMod emotes!
         profile.setUniqueId(new UUID(this.random.nextLong(), 0));
 
-        return profile;
+        // building the NPC
+        NPC npc = NPC.builder()
+                .profile(profile)
+                .location(location)
+                .imitatePlayer(false)
+                .lookAtPlayer(false)
+                // appending it to the NCP pool
+                .build(this.npcPool);
+
+        scriptsNpcs.put(npc,script);
     }
 
     /**
      * Doing something when a NPC is shown for a certain player.
-     * Alternatively, {@link NPC.Builder#spawnCustomizer(SpawnCustomizer)} can be used.
      *
      * @param event The event instance
      */
@@ -117,9 +102,6 @@ public class NPCManager implements Listener {
                 // all ids can be found here: https://docs.labymod.net/pages/server/labymod/emote_api/
                 npc.labymod()
                         .queue(LabyModModifier.LabyModAction.EMOTE, 3),
-                // equipping the NPC with a diamond chestplate
-                npc.equipment()
-                        .queue(EquipmentModifier.CHEST, new ItemStack(Material.DIAMOND_CHESTPLATE, 1)),
                 // enabling the skin layers and letting the NPC sneak
                 npc.metadata()
                         .queue(MetadataModifier.EntityMetadata.SKIN_LAYERS, true)
@@ -142,11 +124,6 @@ public class NPCManager implements Listener {
         }
     }
 
-    /**
-     * Doing something when a player interacts with a NPC.
-     *
-     * @param event The event instance
-     */
     @EventHandler
     public void handleNPCInteract(PlayerNPCInteractEvent event) {
         Player player = event.getPlayer();
@@ -154,12 +131,8 @@ public class NPCManager implements Listener {
 
         // checking if the player hit the NPC
         if (event.getUseAction() == PlayerNPCInteractEvent.EntityUseAction.ATTACK) {
-            player.sendMessage("Why are you hitting me? :(");
             // making the NPC look at the player
-            npc.rotation()
-                    .queueLookAt(player.getEyeLocation())
-                    // sending the change only to the player who interacted with the NPC
-                    .send(player);
+            scriptsNpcs.get(npc).accept(player);
         }
     }
 }
