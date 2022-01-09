@@ -8,6 +8,7 @@ import dev.foton.hubcore.modules.interfaces.items.Text;
 import dev.foton.hubcore.modules.interfaces.items.ToggleButton;
 import dev.foton.hubcore.modules.interfaces.items.sub.EmptyElement;
 import dev.foton.hubcore.modules.interfaces.items.sub.ScriptableButton;
+import dev.foton.hubcore.modules.interfaces.menu.ChestMenu;
 import dev.foton.hubcore.modules.interfaces.menu.DispancerMenu;
 import me.NitkaNikita.AdvancedColorAPI.api.types.builders.GradientTextBuilder;
 import me.NitkaNikita.AdvancedColorAPI.api.types.builders.SolidTextBuilder;
@@ -33,8 +34,39 @@ public final class Main extends JavaPlugin {
         // Plugin startup logic
         i = this;
 
+        initMenus();
+
+        CustomCommandBuilder.setPlugin(this);
+
+        getServer().getScheduler().scheduleSyncRepeatingTask(this,new RenderEffectRunnable(),0,1);
+
+        getServer().getPluginManager().registerEvents(new MenuListener(),this);
+        getServer().getPluginManager().registerEvents(new ParticleModuleListener(),this);
+        getServer().getPluginManager().registerEvents(new MicroMechanicsListener(),this);
 
 
+        new CustomCommandBuilder()
+                .name("games").executor((commandSender, strings) -> {
+            if (commandSender instanceof Player){
+                MenuManager.open((Player) commandSender,MenuManager.getMenu("menu_go_to"));
+            }
+        }).registryPlugin();
+
+        new CustomCommandBuilder()
+                .name("menu").executor((commandSender, strings) -> {
+            if (commandSender instanceof Player){
+                MenuManager.open((Player) commandSender,MenuManager.getMenu("menu_all_menu"));
+            }
+        }).registryPlugin();
+
+    }
+
+    @Override
+    public void onDisable() {
+        // Plugin shutdown logic
+    }
+
+    public void initMenus(){
         DispancerMenu welcomeMenu = new DispancerMenu(new GradientTextBuilder()
                 .text("&lКуда отправимся?")
                 .addColor("#42f5a4").addColor("#fc0373")
@@ -59,36 +91,42 @@ public final class Main extends JavaPlugin {
 
         welcomeMenu.addElement(campfireBtn);
 
-
-
-
-
-
         MenuManager.addMenu(welcomeMenu);
 
 
-        CustomCommandBuilder.setPlugin(this);
+        ChestMenu allMenus = new ChestMenu("&6Все меню", "menu_all_menu",3);
 
-        getServer().getScheduler().scheduleSyncRepeatingTask(this,new RenderEffectRunnable(),0,1);
+        ScriptableButton goToGame = new ScriptableButton(
+                Material.COMPASS,
+                "&6Все сервера",
+                "allGamesBtn", new ArrayList<>(), new Vector(5,2,1),
+                1
+        );
 
-        getServer().getPluginManager().registerEvents(new MenuListener(),this);
-        getServer().getPluginManager().registerEvents(new ParticleModuleListener(),this);
-        getServer().getPluginManager().registerEvents(new MicroMechanicsListener(),this);
+        goToGame.setScript(humanEntity -> {
+            MenuManager.open((Player) humanEntity,MenuManager.getMenu("menu_go_to"));
+        });
 
-        //#region удалить
+        ScriptableButton hats = new ScriptableButton(
+                Material.LEATHER_HELMET,
+                "&bШапки",
+                "hatsBtn", new ArrayList<>(), new Vector(3,2,1),
+                1
+        );
 
-        new CustomCommandBuilder()
-                .name("menu").executor((commandSender, strings) -> {
-            if (commandSender instanceof Player){
-                MenuManager.open((Player) commandSender,MenuManager.getMenu("menu_go_to"));
-            }
-        }).registryPlugin();
-        //#endregion
+        ScriptableButton settings = new ScriptableButton(
+                Material.COMPARATOR,
+                "&bНастройки",
+                "settingsBtn", new ArrayList<>(), new Vector(7,2,1),
+                1
+        );
 
-    }
+        allMenus.addElement(goToGame);
+        allMenus.addElement(hats);
+        allMenus.addElement(settings);
 
-    @Override
-    public void onDisable() {
-        // Plugin shutdown logic
+        MenuManager.addMenu(allMenus);
+        MenuManager.addMenu(welcomeMenu);
+
     }
 }

@@ -18,11 +18,16 @@ repositories {
     maven {
         url = "https://papermc.io/repo/repository/maven-public/"
     }
+    maven {
+        name 'jitpack.io'
+        url 'https://jitpack.io'
+    }
 }
 
 dependencies {
     compileOnly 'org.spigotmc:spigot-api:1.18.1-R0.1-SNAPSHOT'
     compileOnly "io.papermc.paper:paper-api:1.18.1-R0.1-SNAPSHOT"
+    compileOnly "com.github.juliarn:npc-lib:2.6-RELEASE"
     compileOnly files("libs/AdvancedColorApi.jar")
 }
 

@@ -3,6 +3,14 @@ version: '${version}'
 main: dev.foton.hubcore.Main
 api-version: 1.18
 authors: [ FotonDevTeam ]
+depend:
+  - ProtocolLib
+  - AdvancedColorAPI
+  - PlaceholdersAPI
 commands:
   menu:
     usage: /menu
+  games:
+    usage: /games
+  hats:
+    usage: /hats
