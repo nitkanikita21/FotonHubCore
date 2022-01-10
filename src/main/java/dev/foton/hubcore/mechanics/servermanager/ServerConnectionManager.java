@@ -9,7 +9,7 @@ public class ServerConnectionManager {
     public static void connect(Player p, String server){
         ByteArrayDataOutput out = ByteStreams.newDataOutput();
         out.writeUTF("ConnectOther");
-        out.writeUTF("roblabla");
+        out.writeUTF(p.getName());
         out.writeUTF(server);
 
         // If you don't care about the player

@@ -66,6 +66,18 @@ public final class Main extends JavaPlugin {
             if (commandSender instanceof Player){
                 Player p = (Player) commandSender;
                 NPCManager.getInstance().appendGameNPC(p.getLocation(),strings[0],player -> {
+                    p.sendMessage("test");
+                    ServerConnectionManager.connect(player,strings[1]);
+                });
+            }
+        }).registryPlugin();
+
+        new CustomCommandBuilder()
+                .name("hats").executor((commandSender, strings) -> {
+            if (commandSender instanceof Player){
+                Player p = (Player) commandSender;
+                NPCManager.getInstance().appendGameNPC(p.getLocation(),strings[0],player -> {
+                    p.sendMessage("test");
                     ServerConnectionManager.connect(player,strings[1]);
                 });
             }
