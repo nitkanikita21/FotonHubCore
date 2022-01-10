@@ -10,7 +10,7 @@ public class HatsCollection {
     protected String id;
     protected String name;
     protected Material icon;
-    protected ArrayList<Hat> hats;
+    protected ArrayList<Hat> hats = new ArrayList<>();
 
     public HatsCollection(String id){
         this.id = id;

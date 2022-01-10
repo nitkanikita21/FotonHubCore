@@ -46,4 +46,7 @@ public class ChestMenu extends Menu {
         return menu;
     }
 
+    public int getHeight() {
+        return height;
+    }
 }

@@ -14,10 +14,9 @@ public abstract class Hat {
     protected double chance;
 
 
-    public Hat(String id, double chance, HatsCollection collection){
+    public Hat(String id, HatsCollection collection){
         this.id = id;
         this.collection = collection;
-        this.chance = chance;
     }
 
     public void setName(String name) {

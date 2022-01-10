@@ -1,11 +1,15 @@
 package dev.foton.hubcore;
 
 import dev.foton.hubcore.mechanics.MicroMechanicsListener;
+import dev.foton.hubcore.mechanics.hats.Hat;
+import dev.foton.hubcore.mechanics.hats.HatsCollection;
+import dev.foton.hubcore.mechanics.hats.HatsManager;
 import dev.foton.hubcore.mechanics.npc.NPCManager;
 import dev.foton.hubcore.mechanics.servermanager.ServerConnectionManager;
 import dev.foton.hubcore.modules.commands.CustomCommandBuilder;
 import dev.foton.hubcore.modules.interfaces.MenuListener;
 import dev.foton.hubcore.modules.interfaces.MenuManager;
+import dev.foton.hubcore.modules.interfaces.items.Text;
 import dev.foton.hubcore.modules.interfaces.items.sub.ScriptableButton;
 import dev.foton.hubcore.modules.interfaces.menu.ChestMenu;
 import dev.foton.hubcore.modules.interfaces.menu.DispancerMenu;
@@ -20,6 +24,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public final class Main extends JavaPlugin {
 
@@ -34,6 +39,7 @@ public final class Main extends JavaPlugin {
         // Plugin startup logic
         i = this;
 
+        HatsManager.init();
         initMenus();
 
         CustomCommandBuilder.setPlugin(this);
@@ -76,10 +82,7 @@ public final class Main extends JavaPlugin {
                 .name("hats").executor((commandSender, strings) -> {
             if (commandSender instanceof Player){
                 Player p = (Player) commandSender;
-                NPCManager.getInstance().appendGameNPC(p.getLocation(),strings[0],player -> {
-                    p.sendMessage("test");
-                    ServerConnectionManager.connect(player,strings[1]);
-                });
+                MenuManager.open((Player) commandSender,MenuManager.getMenu("hats"));
             }
         }).registryPlugin();
 
@@ -139,6 +142,10 @@ public final class Main extends JavaPlugin {
                 1
         );
 
+        hats.setScript(humanEntity -> {
+            MenuManager.open((Player) humanEntity,MenuManager.getMenu("hats"));
+        });
+
         ScriptableButton settings = new ScriptableButton(
                 Material.COMPARATOR,
                 "&bНастройки",
@@ -149,6 +156,34 @@ public final class Main extends JavaPlugin {
         allMenus.addElement(goToGame);
         allMenus.addElement(hats);
         allMenus.addElement(settings);
+
+        List<Hat> hatsArray = new ArrayList<>();
+        for (HatsCollection value : HatsManager.getCollectionMap().values()) {
+            hatsArray.addAll(value.getHats());
+        }
+
+        ChestMenu hatsMenu = new ChestMenu("&6Шапки","hats",6);
+
+        int x = 1;
+        int i = 0;
+        for(int y = 1; y <= hatsMenu.getHeight() && i < hatsArray.size(); y++){
+            if(x > 9)x = 1;
+
+            Hat hat = hatsArray.get(i);
+
+            Text h = new Text(hat.getIcon(),
+                    new SolidTextBuilder().text(hat.getName()).color(hat.getColorName()).build().getJsonText(),
+                    hat.getId(),new ArrayList<>(),
+                    new Vector(x,y,1),1
+            );
+
+            hatsMenu.addElement(h);
+
+            x++;
+            i++;
+        }
+
+        MenuManager.addMenu(hatsMenu);
 
         MenuManager.addMenu(allMenus);
         MenuManager.addMenu(welcomeMenu);
