@@ -24,6 +24,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public final class Main extends JavaPlugin {
@@ -135,14 +136,14 @@ public final class Main extends JavaPlugin {
             MenuManager.open((Player) humanEntity,MenuManager.getMenu("menu_go_to"));
         });
 
-        ScriptableButton hats = new ScriptableButton(
+        ScriptableButton hatsBtn = new ScriptableButton(
                 Material.LEATHER_HELMET,
                 "&bШапки",
                 "hatsBtn", new ArrayList<>(), new Vector(3,2,1),
                 1
         );
 
-        hats.setScript(humanEntity -> {
+        hatsBtn.setScript(humanEntity -> {
             MenuManager.open((Player) humanEntity,MenuManager.getMenu("hats"));
         });
 
@@ -154,36 +155,70 @@ public final class Main extends JavaPlugin {
         );
 
         allMenus.addElement(goToGame);
-        allMenus.addElement(hats);
+        allMenus.addElement(hatsBtn);
         allMenus.addElement(settings);
 
-        List<Hat> hatsArray = new ArrayList<>();
-        for (HatsCollection value : HatsManager.getCollectionMap().values()) {
-            hatsArray.addAll(value.getHats());
-        }
-
-        ChestMenu hatsMenu = new ChestMenu("&6Шапки","hats",6);
+        ChestMenu hatsCollectionsMenu = new ChestMenu("&6Шапки","hats",6);
 
         int x = 1;
-        int i = 0;
-        for(int y = 1; y <= hatsMenu.getHeight() && i < hatsArray.size(); y++){
-            if(x > 9)x = 1;
+        int y = 1;
+        List<HatsCollection> collections = new ArrayList<>();
+        collections.addAll(HatsManager.getCollectionMap().values());
 
-            Hat hat = hatsArray.get(i);
+        for (int i = 0; i < collections.size() && y < hatsCollectionsMenu.getHeight(); i++) {
+            if(x > 9) {
+                x = 1;
+                y++;
+            }
 
-            Text h = new Text(hat.getIcon(),
-                    new SolidTextBuilder().text(hat.getName()).color(hat.getColorName()).build().getJsonText(),
-                    hat.getId(),new ArrayList<>(),
+            HatsCollection collection = collections.get(i);
+
+            ScriptableButton h = new ScriptableButton(collection.getIcon(),
+                    collection.getName(),
+                    collection.getId(),new ArrayList<>(),
                     new Vector(x,y,1),1
             );
+            h.setScript(humanEntity -> {
 
-            hatsMenu.addElement(h);
+                ChestMenu hatsMenu = new ChestMenu(collection.getName(),"hats_"+collection.getId(),6);
+
+                ArrayList<Hat> hats = new ArrayList<>(collection.getHats());
+
+
+                int x2 = 1;
+                int y2 = 1;
+
+                for (int j = 0; j < collections.size() && y2 < hatsMenu.getHeight(); j++) {
+                    if(x2 > 9) {
+                        x2 = 1;
+                        y2++;
+                    }
+
+                    Hat hat = hats.get(j);
+
+                    Text hatText = new Text(hat.getIcon(),
+                            new SolidTextBuilder().text(hat.getName()).color(hat.getColorName()).build().getJsonText(),
+                            hat.getId(),new ArrayList<>(),
+                            new Vector(x2,y2,1),1
+                    );
+
+                    hatsMenu.addElement(hatText);
+
+                    x2++;
+                }
+
+                MenuManager.addMenu(hatsMenu);
+
+                MenuManager.open((Player) humanEntity,hatsMenu);
+
+            });
+
+            hatsCollectionsMenu.addElement(h);
 
             x++;
-            i++;
         }
 
-        MenuManager.addMenu(hatsMenu);
+        MenuManager.addMenu(hatsCollectionsMenu);
 
         MenuManager.addMenu(allMenus);
         MenuManager.addMenu(welcomeMenu);

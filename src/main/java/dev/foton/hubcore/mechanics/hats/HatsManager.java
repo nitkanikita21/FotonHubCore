@@ -23,16 +23,20 @@ public class HatsManager {
 
     public static void init(){
 
-        HatsCollection hell = new HatsCollection("hell");
-        hell.setIcon(Material.GREEN_TERRACOTTA);
-        hell.setName("Адская коллекция");
+        for (int i = 0; i < 5; i++) {
+            HatsCollection hell = new HatsCollection("hell"+i);
+            hell.setIcon(Material.GREEN_TERRACOTTA);
+            hell.setName("Адская коллекция "+i);
 
 
-        CommonHat common1 = new CommonHat("hell:common1", hell);
-        common1.setIcon(Material.MAGMA_BLOCK);
-        common1.setName("Пажилая адская шапка");
-        hell.addHat(common1);
+            for (int j = 0; j < 6; j++) {
+                CommonHat common = new CommonHat("hell:common"+i+""+j, hell);
+                common.setIcon(Material.LEATHER_HELMET);
+                common.setName("Пажилая адская шапка "+j);
+                hell.addHat(common);
+            }
 
-        addHatCollection(hell);
+            addHatCollection(hell);
+        }
     }
 }
