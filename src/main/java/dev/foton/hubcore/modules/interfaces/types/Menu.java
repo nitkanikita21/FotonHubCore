@@ -8,18 +8,17 @@ import java.util.HashMap;
 import java.util.Map;
 
 public abstract class Menu{
-    protected String name;
+    protected String title;
     protected String id;
     protected Map<String,MenuItem> elements = new HashMap<>();
 
-    public Menu(String name, String id){
-        this.name = name;
+    public Menu(String title, String id){
+        this.title = title;
         this.id = id;
     }
 
-
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
 

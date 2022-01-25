@@ -15,6 +15,8 @@ import org.bukkit.persistence.PersistentDataType;
 
 import java.util.List;
 
+import static dev.foton.hubcore.Main.format;
+
 public class DispancerMenu extends Menu {
 
     public DispancerMenu(String name, String id) {
@@ -23,12 +25,9 @@ public class DispancerMenu extends Menu {
 
     @Override
     public Inventory getInventory() {
-        String format = Main.format(name);
-        Inventory menu = Bukkit.createInventory(null, InventoryType.DISPENSER, format);
+        Inventory menu = Bukkit.createInventory(null, InventoryType.DISPENSER, format(title));
 
-        int y = 0;
-        for (MenuItem element : elements.values()) {
-            MenuItem el = (MenuItem)element;
+        for (MenuItem el : elements.values()) {
 
             ItemStack item = new ItemStack(el.getIcon());
             ItemMeta meta = item.getItemMeta();

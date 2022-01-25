@@ -18,14 +18,14 @@ import static dev.foton.hubcore.Main.format;
 public class ChestMenu extends Menu {
     private int height;
 
-    public ChestMenu(String name, String id, int height) {
-        super(name,id);
+    public ChestMenu(String title, String id, int height) {
+        super(title,id);
         this.height = height;
     }
 
     @Override
     public Inventory getInventory() {
-        Inventory menu = Bukkit.createInventory(null,height*9,format(name));
+        Inventory menu = Bukkit.createInventory(null,height*9,format(title));
 
         for (MenuItem el : elements.values()) {
 
