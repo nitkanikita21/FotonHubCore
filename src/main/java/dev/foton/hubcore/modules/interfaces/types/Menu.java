@@ -1,6 +1,13 @@
 package dev.foton.hubcore.modules.interfaces.types;
 
+import dev.foton.hubcore.Main;
+import org.bukkit.NamespacedKey;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemFlag;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataType;
 
 
 import java.util.HashMap;
@@ -43,7 +50,29 @@ public abstract class Menu{
     }
 
 
-    public Inventory getInventory() {
-        return null;
+    public final Inventory getInventory() {
+        Inventory inv = getLocalInventory();
+        for (MenuItem el : elements.values()) {
+
+            ItemStack item = new ItemStack(el.getIcon());
+            ItemMeta meta = item.getItemMeta();
+            meta.setDisplayName(el.getDisplayName());
+            meta.setLore(el.getLore());
+            item.setAmount(el.getCount());
+            meta.getPersistentDataContainer().set(new NamespacedKey(Main.i,"elementId"), PersistentDataType.STRING, el.getId());
+            meta.getPersistentDataContainer().set(new NamespacedKey(Main.i,"menuId"), PersistentDataType.STRING, this.getId());
+            meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+            item.setItemMeta(meta);
+            if(el.isEnchanted())item.addEnchantment(Enchantment.LUCK,1);
+
+            double v = (el.getPosition().getY() * getX()) + el.getPosition().getX();
+            inv.setItem((int) v,item);
+        }
+        return inv;
     }
+
+    protected abstract int getX();
+
+    protected abstract Inventory getLocalInventory();
+
 }
