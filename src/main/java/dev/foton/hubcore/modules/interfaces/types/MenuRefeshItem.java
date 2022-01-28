@@ -9,8 +9,8 @@ import org.bukkit.util.Vector;
 import java.util.List;
 
 public class MenuRefeshItem extends MenuItem{
-    public MenuRefeshItem(Material icon, String displayName, String id, List<String> description, Vector position, int count) {
-        super(icon, displayName, id, description, position, count);
+    public MenuRefeshItem(Material icon, String displayName, String id, Vector position, int count) {
+        super(icon, displayName, id, position, count);
     }
 
     public MenuItem OnUpdate() {

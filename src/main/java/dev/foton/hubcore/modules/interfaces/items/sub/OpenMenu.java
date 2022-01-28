@@ -12,8 +12,8 @@ import java.util.List;
 
 public class OpenMenu extends Button {
     private String menuId;
-    public OpenMenu(Material icon, String displayName, String id, List<String> description, Vector position, int count, String menu) {
-        super(icon, displayName, id, description, position, count);
+    public OpenMenu(Material icon, String displayName, String id, Vector position, int count, String menu) {
+        super(icon, displayName, id, position, count);
         menuId = menu;
     }
     @Override
@@ -22,6 +22,5 @@ public class OpenMenu extends Button {
         Menu menu = (Menu) MenuManager.getMenu(menuId);
         Player player = (Player) e.getWhoClicked();
         player.openInventory(menu.getInventory());
-
     }
 }

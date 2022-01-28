@@ -18,7 +18,7 @@ public class SelectButton extends MenuRefeshItem {
     protected int select = 0;
 
     public SelectButton(Material icon, String displayName, String id, Vector position, int count) {
-        super(icon, displayName, id, new ArrayList<>(), position, count);
+        super(icon, displayName, id, position, count);
     }
 
     public int getSelect() {

@@ -12,8 +12,8 @@ import org.bukkit.util.Vector;
 import java.util.List;
 
 public class Button extends MenuRefeshItem {
-    public Button(Material icon, String displayName, String id, List<String> description, Vector position, int count) {
-        super(icon, displayName, id, description, position, count);
+    public Button(Material icon, String displayName, String id, Vector position, int count) {
+        super(icon, displayName, id, position, count);
     }
 
     @Override
