@@ -1,0 +1,8 @@
+name: Hubcore
+version: '${version}'
+main: dev.foton.hubcore.Main
+api-version: 1.18
+authors: [ FotonDevTeam ]
+commands:
+  menu:
+    usage: /menu
