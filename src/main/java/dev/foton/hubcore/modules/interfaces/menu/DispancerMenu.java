@@ -15,6 +15,8 @@ import org.bukkit.persistence.PersistentDataType;
 
 import java.util.List;
 
+import static dev.foton.hubcore.Main.format;
+
 public class DispancerMenu extends Menu {
 
     public DispancerMenu(String name, String id) {
@@ -22,29 +24,13 @@ public class DispancerMenu extends Menu {
     }
 
     @Override
-    public Inventory getInventory() {
-        String format = Main.format(name);
-        Inventory menu = Bukkit.createInventory(null, InventoryType.DISPENSER, format);
-
-        int y = 0;
-        for (MenuItem element : elements.values()) {
-            MenuItem el = (MenuItem)element;
-
-            ItemStack item = new ItemStack(el.getIcon());
-            ItemMeta meta = item.getItemMeta();
-            meta.setDisplayName(el.getDisplayName());
-            meta.setLore(el.getLore());
-            item.setAmount(el.getCount());
-            meta.getPersistentDataContainer().set(new NamespacedKey(Main.i,"elementId"), PersistentDataType.STRING, el.getId());
-            meta.getPersistentDataContainer().set(new NamespacedKey(Main.i,"menuId"), PersistentDataType.STRING, this.getId());
-            meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-            item.setItemMeta(meta);
-            if(el.isEnchanted())item.addEnchantment(Enchantment.LUCK,1);
-
-            double v = (el.getPosition().getY() * 3) + el.getPosition().getX();
-            menu.setItem((int) v,item);
-        }
-
-        return menu;
+    protected int getX() {
+        return 3;
     }
+
+    @Override
+    protected Inventory getLocalInventory() {
+        return Bukkit.createInventory(null, InventoryType.DISPENSER, format(title));
+    }
+
 }

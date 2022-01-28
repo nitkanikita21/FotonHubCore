@@ -10,6 +10,7 @@ import dev.foton.hubcore.modules.commands.CustomCommandBuilder;
 import dev.foton.hubcore.modules.interfaces.MenuListener;
 import dev.foton.hubcore.modules.interfaces.MenuManager;
 import dev.foton.hubcore.modules.interfaces.items.Text;
+import dev.foton.hubcore.modules.interfaces.items.sub.OpenMenu;
 import dev.foton.hubcore.modules.interfaces.items.sub.ScriptableButton;
 import dev.foton.hubcore.modules.interfaces.menu.ChestMenu;
 import dev.foton.hubcore.modules.interfaces.menu.DispancerMenu;
@@ -19,12 +20,12 @@ import me.nitkanikita.particlevisualeffects.ParticleModuleListener;
 import me.nitkanikita.particlevisualeffects.effectengine.RenderEffectRunnable;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 public final class Main extends JavaPlugin {
@@ -70,8 +71,7 @@ public final class Main extends JavaPlugin {
 
         new CustomCommandBuilder()
                 .name("spawnnpc").executor((commandSender, strings) -> {
-            if (commandSender instanceof Player){
-                Player p = (Player) commandSender;
+            if (commandSender instanceof Player p){
                 NPCManager.getInstance().appendGameNPC(p.getLocation(),strings[0],player -> {
                     p.sendMessage("test");
                     ServerConnectionManager.connect(player,strings[1]);
@@ -82,7 +82,6 @@ public final class Main extends JavaPlugin {
         new CustomCommandBuilder()
                 .name("hats").executor((commandSender, strings) -> {
             if (commandSender instanceof Player){
-                Player p = (Player) commandSender;
                 MenuManager.open((Player) commandSender,MenuManager.getMenu("hats"));
             }
         }).registryPlugin();
@@ -105,9 +104,12 @@ public final class Main extends JavaPlugin {
         ScriptableButton campfireBtn = new ScriptableButton(
                 Material.CAMPFIRE,
                 "&7Режим "+new SolidTextBuilder().color("#42f5a4").text("Campfire").build().getJsonText(),
-                "campfireBtn", new ArrayList<>(), new Vector(2,2,1),
+                "campfireBtn", new Vector(2,2,1),
                 1
-        );
+        ){
+            @Override
+            public void OnUse(InventoryClickEvent e) {}
+        };
 
         campfireBtn.addDescriptionLine("");
         campfireBtn.addDescriptionLine(new SolidTextBuilder().color("#42f5a4").text("Campfire").build().getJsonText() + "&7 - Lorem ipsum dolor sit amet, consectetur adipiscing elit. ");
@@ -125,34 +127,31 @@ public final class Main extends JavaPlugin {
 
         ChestMenu allMenus = new ChestMenu("&6Все меню", "menu_all_menu",3);
 
-        ScriptableButton goToGame = new ScriptableButton(
+        OpenMenu goToGame = new OpenMenu(
                 Material.COMPASS,
                 "&6Все сервера",
-                "allGamesBtn", new ArrayList<>(), new Vector(5,2,1),
-                1
+                "allGamesBtn", new Vector(5,2,1),
+                1, "menu_go_to"
         );
-
-        goToGame.setScript(humanEntity -> {
-            MenuManager.open((Player) humanEntity,MenuManager.getMenu("menu_go_to"));
-        });
-
-        ScriptableButton hatsBtn = new ScriptableButton(
+        OpenMenu hatsBtn = new OpenMenu(
                 Material.LEATHER_HELMET,
                 "&bШапки",
-                "hatsBtn", new ArrayList<>(), new Vector(3,2,1),
-                1
+                "hatsBtn", new Vector(3,2,1),
+                1, "hats"
         );
 
-        hatsBtn.setScript(humanEntity -> {
-            MenuManager.open((Player) humanEntity,MenuManager.getMenu("hats"));
-        });
 
         ScriptableButton settings = new ScriptableButton(
                 Material.COMPARATOR,
                 "&bНастройки",
-                "settingsBtn", new ArrayList<>(), new Vector(7,2,1),
+                "settingsBtn", new Vector(7,2,1),
                 1
-        );
+        ){
+            @Override
+            public void OnUse(InventoryClickEvent e) {
+
+            }
+        };
 
         allMenus.addElement(goToGame);
         allMenus.addElement(hatsBtn);
@@ -162,8 +161,7 @@ public final class Main extends JavaPlugin {
 
         int x = 1;
         int y = 1;
-        List<HatsCollection> collections = new ArrayList<>();
-        collections.addAll(HatsManager.getCollectionMap().values());
+        List<HatsCollection> collections = new ArrayList<>(HatsManager.getCollectionMap().values());
 
         for (int i = 0; i < collections.size() && y < hatsCollectionsMenu.getHeight(); i++) {
             if(x > 9) {
@@ -175,43 +173,45 @@ public final class Main extends JavaPlugin {
 
             ScriptableButton h = new ScriptableButton(collection.getIcon(),
                     collection.getName(),
-                    collection.getId(),new ArrayList<>(),
+                    collection.getId(),
                     new Vector(x,y,1),1
-            );
-            h.setScript(humanEntity -> {
+            ){
 
-                ChestMenu hatsMenu = new ChestMenu(collection.getName(),"hats_"+collection.getId(),6);
+                @Override
+                public void OnUse(InventoryClickEvent e) {
 
-                ArrayList<Hat> hats = new ArrayList<>(collection.getHats());
+                    ChestMenu hatsMenu = new ChestMenu(collection.getName(),"hats_"+collection.getId(),6);
+
+                    ArrayList<Hat> hats = new ArrayList<>(collection.getHats());
 
 
-                int x2 = 1;
-                int y2 = 1;
+                    int x2 = 1;
+                    int y2 = 1;
 
-                for (int j = 0; j < collections.size() && y2 < hatsMenu.getHeight(); j++) {
-                    if(x2 > 9) {
-                        x2 = 1;
-                        y2++;
+                    for (int j = 0; j < collections.size() && y2 < hatsMenu.getHeight(); j++) {
+                        if(x2 > 9) {
+                            x2 = 1;
+                            y2++;
+                        }
+
+                        Hat hat = hats.get(j);
+
+                        Text hatText = new Text(hat.getIcon(),
+                                new SolidTextBuilder().text(hat.getName()).color(hat.getColorName()).build().getJsonText(),
+                                hat.getId(),
+                                new Vector(x2,y2,1),1
+                        );
+
+                        hatsMenu.addElement(hatText);
+
+                        x2++;
                     }
 
-                    Hat hat = hats.get(j);
+                    MenuManager.addMenu(hatsMenu);
 
-                    Text hatText = new Text(hat.getIcon(),
-                            new SolidTextBuilder().text(hat.getName()).color(hat.getColorName()).build().getJsonText(),
-                            hat.getId(),new ArrayList<>(),
-                            new Vector(x2,y2,1),1
-                    );
-
-                    hatsMenu.addElement(hatText);
-
-                    x2++;
+                    MenuManager.open((Player) e.getWhoClicked() ,hatsMenu);
                 }
-
-                MenuManager.addMenu(hatsMenu);
-
-                MenuManager.open((Player) humanEntity,hatsMenu);
-
-            });
+            };
 
             hatsCollectionsMenu.addElement(h);
 

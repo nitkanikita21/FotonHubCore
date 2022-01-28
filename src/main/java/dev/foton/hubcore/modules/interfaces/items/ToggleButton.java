@@ -14,8 +14,8 @@ public class ToggleButton extends MenuRefeshItem {
 
     protected boolean isActive = false;
 
-    public ToggleButton(String displayName, String id, List<String> description, Vector position, int count) {
-        super(Material.RED_WOOL, displayName, id, description, position, count);
+    public ToggleButton(String displayName, String id, Vector position, int count) {
+        super(Material.RED_WOOL, displayName, id, position, count);
     }
 
     @Override

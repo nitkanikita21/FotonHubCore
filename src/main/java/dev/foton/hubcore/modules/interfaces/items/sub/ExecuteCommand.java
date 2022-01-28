@@ -10,8 +10,8 @@ import java.util.List;
 
 public class ExecuteCommand extends Button {
     private String command;
-    public ExecuteCommand(Material icon, String displayName, String id, List<String> description, Vector position, int count, String cmd) {
-        super(icon, displayName, id, description, position, count);
+    public ExecuteCommand(Material icon, String displayName, String id, Vector position, int count, String cmd) {
+        super(icon, displayName, id, position, count);
         command = cmd;
     }
 

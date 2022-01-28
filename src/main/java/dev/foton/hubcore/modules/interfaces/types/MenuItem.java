@@ -21,14 +21,13 @@ public class MenuItem{
 
     public MenuItem(
             Material icon, String displayName,
-            String id, List<String> description,
+            String id,
             Vector position,
             int count
     ){
         this.icon = icon;
         this.displayName = displayName;
         this.id = id;
-        this.description = description;
         this.position = position;
         this.count = count;
 

@@ -11,17 +11,16 @@ import org.bukkit.util.Vector;
 import java.util.List;
 
 public class OpenMenu extends Button {
-    private String menuId;
-    public OpenMenu(Material icon, String displayName, String id, List<String> description, Vector position, int count, String menu) {
-        super(icon, displayName, id, description, position, count);
+    private final String menuId;
+    public OpenMenu(Material icon, String displayName, String id, Vector position, int count, String menu) {
+        super(icon, displayName, id, position, count);
         menuId = menu;
     }
     @Override
     public void OnUse(InventoryClickEvent e) {
         super.OnUse(e);
-        Menu menu = (Menu) MenuManager.getMenu(menuId);
+        Menu menu = MenuManager.getMenu(menuId);
         Player player = (Player) e.getWhoClicked();
         player.openInventory(menu.getInventory());
-
     }
 }
