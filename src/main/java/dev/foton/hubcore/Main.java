@@ -1,5 +1,6 @@
 package dev.foton.hubcore;
 
+import dev.foton.chat.ChatListener;
 import dev.foton.hubcore.mechanics.MicroMechanicsListener;
 import dev.foton.hubcore.mechanics.hats.Hat;
 import dev.foton.hubcore.mechanics.hats.HatsCollection;
@@ -52,6 +53,8 @@ public final class Main extends JavaPlugin {
         pluginManager.registerEvents(new MenuListener(),this);
         pluginManager.registerEvents(new ParticleModuleListener(),this);
         pluginManager.registerEvents(new MicroMechanicsListener(),this);
+        pluginManager.registerEvents(new ChatListener(),this);
+
 
         this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
 
