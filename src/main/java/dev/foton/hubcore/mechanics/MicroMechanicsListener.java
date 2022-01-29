@@ -1,5 +1,6 @@
 package dev.foton.hubcore.mechanics;
 
+import dev.foton.chat.ChatManager;
 import dev.foton.hubcore.Main;
 import dev.foton.hubcore.modules.interfaces.MenuManager;
 import me.NitkaNikita.AdvancedColorAPI.api.types.builders.GradientTextBuilder;
@@ -52,6 +53,10 @@ public class MicroMechanicsListener implements Listener {
             );
 
             p.getWorld().playSound(p.getLocation(),Sound.ENTITY_EXPERIENCE_ORB_PICKUP, SoundCategory.RECORDS,0.5f,1f);
+        }
+
+        if(!ChatManager.checkRegistry(p)){
+            ChatManager.setChatPlayer(p);
         }
 
         p.teleport(p.getWorld().getSpawnLocation());

@@ -69,4 +69,7 @@ tasks {
     withType(JavaCompile::class.java) {
         options.encoding = "UTF-8"
     }
+    shadowJar {
+        destinationDirectory.set(file("$rootDir/out"))
+    }
 }
