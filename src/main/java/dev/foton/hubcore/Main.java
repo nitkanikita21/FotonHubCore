@@ -1,6 +1,10 @@
 package dev.foton.hubcore;
 
+import com.comphenix.protocol.ProtocolLibrary;
+import com.comphenix.protocol.ProtocolManager;
 import dev.foton.chat.ChatListener;
+import dev.foton.chat.ChatManager;
+import dev.foton.chat.settings.ChatPlayer;
 import dev.foton.hubcore.mechanics.MicroMechanicsListener;
 import dev.foton.hubcore.mechanics.hats.Hat;
 import dev.foton.hubcore.mechanics.hats.HatsCollection;
@@ -8,17 +12,21 @@ import dev.foton.hubcore.mechanics.hats.HatsManager;
 import dev.foton.hubcore.mechanics.npc.NPCManager;
 import dev.foton.hubcore.mechanics.servermanager.ServerConnectionManager;
 import dev.foton.hubcore.modules.commands.CustomCommandBuilder;
+import dev.foton.hubcore.modules.interfaces.CustomPacketListener;
 import dev.foton.hubcore.modules.interfaces.MenuListener;
 import dev.foton.hubcore.modules.interfaces.MenuManager;
+import dev.foton.hubcore.modules.interfaces.input.sign.SignMenuInput;
 import dev.foton.hubcore.modules.interfaces.items.Text;
 import dev.foton.hubcore.modules.interfaces.items.sub.OpenMenu;
 import dev.foton.hubcore.modules.interfaces.items.sub.ScriptableButton;
 import dev.foton.hubcore.modules.interfaces.menu.ChestMenu;
 import dev.foton.hubcore.modules.interfaces.menu.DispancerMenu;
+import me.NitkaNikita.AdvancedColorAPI.api.types.AdvancedColor;
 import me.NitkaNikita.AdvancedColorAPI.api.types.builders.GradientTextBuilder;
 import me.NitkaNikita.AdvancedColorAPI.api.types.builders.SolidTextBuilder;
 import me.nitkanikita.particlevisualeffects.ParticleModuleListener;
 import me.nitkanikita.particlevisualeffects.effectengine.RenderEffectRunnable;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -27,12 +35,26 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public final class Main extends JavaPlugin {
 
     public static Main i;
 
+    public ProtocolManager getProtocolManager() {
+        return protocolManager;
+    }
+
+    private ProtocolManager protocolManager;
+
+    /**
+     * @param s
+     * @return String
+     * УДалить нахуй єту залупу
+     * Юзать метод в ChatColor
+     */
+    @Deprecated
     public static String format(String s){
         return s.replaceAll("&","\u00A7");
     }
@@ -41,6 +63,9 @@ public final class Main extends JavaPlugin {
     public void onEnable() {
         // Plugin startup logic
         i = this;
+
+        protocolManager = ProtocolLibrary.getProtocolManager();
+        protocolManager.addPacketListener(new CustomPacketListener());
 
         HatsManager.init();
         initMenus();
@@ -55,6 +80,11 @@ public final class Main extends JavaPlugin {
         pluginManager.registerEvents(new MicroMechanicsListener(),this);
         pluginManager.registerEvents(new ChatListener(),this);
 
+        for (Player p : Bukkit.getOnlinePlayers()) {
+            if(!ChatManager.checkRegistry(p)){
+                ChatManager.setChatPlayer(p);
+            }
+        }
 
         this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
 
@@ -152,7 +182,7 @@ public final class Main extends JavaPlugin {
         ){
             @Override
             public void OnUse(InventoryClickEvent e) {
-
+                MenuManager.open((Player) e.getWhoClicked(),MenuManager.getMenu("customazise_chat"));
             }
         };
 
@@ -225,6 +255,23 @@ public final class Main extends JavaPlugin {
 
         MenuManager.addMenu(allMenus);
         MenuManager.addMenu(welcomeMenu);
+
+
+        ChestMenu customizeChat = new ChestMenu(new SolidTextBuilder().text("Настройки чата").color("#00ff00").build().getJsonText(),"customazise_chat", 4);
+
+        ScriptableButton nickColor = new ScriptableButton(Material.LIME_DYE, "&2Установить цвет ника", "nickColor", new Vector(1, 1, 1), 1) {
+            @Override
+            public void OnUse(InventoryClickEvent e) {
+                SignMenuInput.requestInput((Player) e.getWhoClicked(),Arrays.asList("ABC"),(player, strings) -> {
+
+                });
+            }
+        };
+        nickColor.addDescriptionLine("&7Нажмите что бы ввести цвет");
+        customizeChat.addElement(nickColor);
+
+        MenuManager.addMenu(customizeChat);
+
 
     }
 }

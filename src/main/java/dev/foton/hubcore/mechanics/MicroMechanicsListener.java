@@ -15,12 +15,16 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
+import java.util.Arrays;
+
 public class MicroMechanicsListener implements Listener {
 
 
     @EventHandler
     public void playerJoin(PlayerJoinEvent event){
         Player p = event.getPlayer();
+
+
 
         if(!Bukkit.getOfflinePlayer(p.getUniqueId()).hasPlayedBefore()){
             p.sendTitle(
@@ -55,10 +59,14 @@ public class MicroMechanicsListener implements Listener {
             p.getWorld().playSound(p.getLocation(),Sound.ENTITY_EXPERIENCE_ORB_PICKUP, SoundCategory.RECORDS,0.5f,1f);
         }
 
+        regChatSettings(p);
+
+        p.teleport(p.getWorld().getSpawnLocation());
+    }
+
+    public void regChatSettings(Player p){
         if(!ChatManager.checkRegistry(p)){
             ChatManager.setChatPlayer(p);
         }
-
-        p.teleport(p.getWorld().getSpawnLocation());
     }
 }

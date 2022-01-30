@@ -1,6 +1,7 @@
 package dev.foton.hubcore.modules.interfaces.types;
 
 import dev.foton.hubcore.Main;
+import me.NitkaNikita.AdvancedColorAPI.api.utils.Debug;
 import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.Inventory;
@@ -8,6 +9,7 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
+import org.jline.utils.Log;
 
 
 import java.util.HashMap;
@@ -68,6 +70,7 @@ public abstract class Menu{
             double v = (el.getPosition().getY() * getX()) + el.getPosition().getX();
             inv.setItem((int) v,item);
         }
+
         return inv;
     }
 

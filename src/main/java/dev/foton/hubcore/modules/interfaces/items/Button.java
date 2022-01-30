@@ -18,7 +18,7 @@ public class Button extends MenuRefeshItem {
 
     @Override
     public String getDisplayName() {
-        return super.getDisplayName()+ChatColor.GRAY;
+        return super.getDisplayName();
     }
 
     @Override
