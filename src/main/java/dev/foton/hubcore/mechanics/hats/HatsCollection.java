@@ -1,10 +1,8 @@
 package dev.foton.hubcore.mechanics.hats;
 
 import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class HatsCollection {
     protected String id;

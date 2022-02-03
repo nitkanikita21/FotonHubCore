@@ -1,19 +1,9 @@
 package dev.foton.hubcore.modules.interfaces.menu;
 
-import dev.foton.hubcore.Main;
 import dev.foton.hubcore.modules.interfaces.types.Menu;
-import dev.foton.hubcore.modules.interfaces.types.MenuItem;
 import org.bukkit.Bukkit;
-import org.bukkit.NamespacedKey;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemFlag;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.persistence.PersistentDataType;
-
-import java.util.List;
 
 import static dev.foton.hubcore.Main.format;
 

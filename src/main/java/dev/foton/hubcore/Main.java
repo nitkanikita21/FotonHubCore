@@ -9,11 +9,11 @@ import dev.foton.hubcore.mechanics.servermanager.ServerConnectionManager;
 import dev.foton.hubcore.modules.commands.CustomCommandBuilder;
 import dev.foton.hubcore.modules.interfaces.MenuListener;
 import dev.foton.hubcore.modules.interfaces.MenuManager;
-import dev.foton.hubcore.modules.interfaces.items.Text;
 import dev.foton.hubcore.modules.interfaces.items.sub.OpenMenu;
 import dev.foton.hubcore.modules.interfaces.items.sub.ScriptableButton;
 import dev.foton.hubcore.modules.interfaces.menu.ChestMenu;
 import dev.foton.hubcore.modules.interfaces.menu.DispancerMenu;
+import dev.foton.hubcore.modules.interfaces.types.MenuItem;
 import me.NitkaNikita.AdvancedColorAPI.api.types.builders.GradientTextBuilder;
 import me.NitkaNikita.AdvancedColorAPI.api.types.builders.SolidTextBuilder;
 import me.nitkanikita.particlevisualeffects.ParticleModuleListener;
@@ -196,7 +196,7 @@ public final class Main extends JavaPlugin {
 
                         Hat hat = hats.get(j);
 
-                        Text hatText = new Text(hat.getIcon(),
+                        MenuItem hatText = new MenuItem(hat.getIcon(),
                                 new SolidTextBuilder().text(hat.getName()).color(hat.getColorName()).build().getJsonText(),
                                 hat.getId(),
                                 new Vector(x2,y2,1),1

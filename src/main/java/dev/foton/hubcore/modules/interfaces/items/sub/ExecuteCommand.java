@@ -6,8 +6,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.util.Vector;
 
-import java.util.List;
-
 public class ExecuteCommand extends Button {
     private String command;
     public ExecuteCommand(Material icon, String displayName, String id, Vector position, int count, String cmd) {
@@ -18,8 +16,7 @@ public class ExecuteCommand extends Button {
     @Override
     public void OnUse(InventoryClickEvent e) {
         super.OnUse(e);
-        if(e.getWhoClicked() instanceof Player){
-            Player p = (Player) e.getWhoClicked();
+        if(e.getWhoClicked() instanceof Player p){
             p.chat(command);
         }
     }

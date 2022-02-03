@@ -1,13 +1,12 @@
 package dev.foton.hubcore.modules.interfaces.items.sub;
 
-import dev.foton.hubcore.modules.interfaces.items.Text;
+import dev.foton.hubcore.modules.interfaces.types.MenuItem;
 import org.bukkit.Material;
 import org.bukkit.util.Vector;
 
-import java.util.ArrayList;
 import java.util.UUID;
 
-public class EmptyElement extends Text {
+public class EmptyElement extends MenuItem {
     public EmptyElement(Vector position) {
         super(Material.BLACK_STAINED_GLASS_PANE, " ", UUID.randomUUID().toString(), position, 1);
     }

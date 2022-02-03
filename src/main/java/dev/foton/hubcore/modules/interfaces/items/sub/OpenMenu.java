@@ -8,8 +8,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.util.Vector;
 
-import java.util.List;
-
 public class OpenMenu extends Button {
     private final String menuId;
     public OpenMenu(Material icon, String displayName, String id, Vector position, int count, String menu) {

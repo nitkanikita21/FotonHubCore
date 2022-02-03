@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public abstract class Menu{
+    //TODO: добавить метод для заполнения меню EmtyElement ами
     protected String title;
     protected String id;
     protected Map<String,MenuItem> elements = new HashMap<>();

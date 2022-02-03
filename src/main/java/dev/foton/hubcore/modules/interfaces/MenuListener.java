@@ -17,26 +17,22 @@ import org.bukkit.persistence.PersistentDataType;
 public class MenuListener implements Listener {
     @EventHandler
     public void onClickItem(InventoryClickEvent e){
-        if(!(e.getWhoClicked() instanceof Player))return;
-
-        Player player = (Player) e.getWhoClicked();
+        if(!(e.getWhoClicked() instanceof Player player))return;
 
         ItemStack item = e.getCurrentItem();
         if(item == null)return;
         ItemMeta meta = item.getItemMeta();
         if(meta != null){
 
-            String elementId = (String) meta.getPersistentDataContainer().get(new NamespacedKey(Main.i,"elementId"), PersistentDataType.STRING);
-            String menuId = (String) meta.getPersistentDataContainer().get(new NamespacedKey(Main.i,"menuId"), PersistentDataType.STRING);
+            String elementId = meta.getPersistentDataContainer().get(new NamespacedKey(Main.i,"elementId"), PersistentDataType.STRING);
+            String menuId = meta.getPersistentDataContainer().get(new NamespacedKey(Main.i,"menuId"), PersistentDataType.STRING);
 
             if(elementId != null){
                 Menu menu = MenuManager.getMenu(menuId);
-                MenuItem element = (MenuItem) menu.getElement(elementId);
-                if(element instanceof Button){
-                    Button btn = (Button) element;
+                MenuItem element = menu.getElement(elementId);
+                if(element instanceof Button btn){
                     btn.OnUse(e);
-                }else if (element instanceof MenuRefeshItem){
-                    MenuRefeshItem tg = (MenuRefeshItem) element;
+                }else if (element instanceof MenuRefeshItem tg){
                     tg.OnUse(e);
                     tg.OnUpdate();
                     meta.setLore(tg.getLore());

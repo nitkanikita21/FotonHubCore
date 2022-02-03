@@ -8,8 +8,6 @@ import org.bukkit.Sound;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.util.Vector;
 
-import java.util.List;
-
 public class ToggleButton extends MenuRefeshItem {
 
     protected boolean isActive = false;

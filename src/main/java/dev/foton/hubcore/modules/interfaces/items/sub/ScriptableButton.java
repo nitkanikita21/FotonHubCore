@@ -5,8 +5,6 @@ import org.bukkit.Material;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.util.Vector;
 
-import java.util.List;
-
 public abstract class ScriptableButton extends Button {
 
     public ScriptableButton(Material icon, String displayName, String id, Vector position, int count) {
