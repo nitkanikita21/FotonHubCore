@@ -22,6 +22,7 @@ public class MenuManager {
             menus.put(menu.getId(),menu);
         }
     }
+
     public static Menu removeMenu(String id){
         return menus.remove(id);
     }

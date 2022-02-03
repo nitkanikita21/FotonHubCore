@@ -30,7 +30,7 @@ public class ToggleButton extends MenuRefeshItem {
 
     @Override
     public String getDisplayName() {
-        return ChatColor.GRAY + ""+(isActive ? ChatColor.GREEN+"☑" : ChatColor.RED+"☒") + ChatColor.GRAY + " | "+super.getDisplayName();
+        return ""+(isActive ? ChatColor.GREEN+"☑" : ChatColor.RED+"☒") + ChatColor.GRAY + " | "+super.getDisplayName();
     }
 
     @Override

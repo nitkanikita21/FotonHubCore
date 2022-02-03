@@ -22,6 +22,7 @@ dependencies {
     paperDevBundle("1.18.1-R0.1-SNAPSHOT")
     compileOnly(files("libs/AdvancedColorApi.jar"))
     compileOnly("com.comphenix.protocol:ProtocolLib:4.7.0")
+    // compileOnly("org.spigotmc:spigot:1.18.1-R0.1-SNAPSHOT")
 }
 
 // Здесь генерируется plugin.yml, настраивайте его тут.
@@ -30,6 +31,7 @@ bukkit {
     main = "dev.foton.hubcore.Main"
     apiVersion = "1.18"
     authors = listOf("FotonDevTeam")
+    depend = listOf("ProtocolLib")
     commands {
         register("menu") {
             usage = "/menu"
@@ -68,5 +70,8 @@ tasks {
     }
     withType(JavaCompile::class.java) {
         options.encoding = "UTF-8"
+    }
+    shadowJar {
+        destinationDirectory.set(file("$rootDir/out"))
     }
 }

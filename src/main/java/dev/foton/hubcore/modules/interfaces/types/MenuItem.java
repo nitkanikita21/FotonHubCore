@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.util.Vector;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,6 +31,8 @@ public class MenuItem{
         this.id = id;
         this.position = position;
         this.count = count;
+
+        description = new ArrayList<>();
 
         position.setX(position.getX()-1);
         position.setY(position.getY()-1);
