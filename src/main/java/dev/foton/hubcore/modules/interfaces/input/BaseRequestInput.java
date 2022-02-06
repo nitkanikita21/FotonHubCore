@@ -2,13 +2,15 @@ package dev.foton.hubcore.modules.interfaces.input;
 
 import org.bukkit.entity.Player;
 
+import java.util.List;
 import java.util.function.BiConsumer;
+import java.util.function.BiPredicate;
 
 public abstract class BaseRequestInput {
-    Player target;
-    BiConsumer<Player,String[]> callback;
+    protected Player target;
+    protected BiPredicate<Player,String> callback;
 
-    protected BaseRequestInput(Player target, BiConsumer<Player, String[]> callback){
+    protected BaseRequestInput(Player target, BiPredicate<Player, String> callback){
         this.target = target;
         this.callback = callback;
     }
@@ -21,11 +23,15 @@ public abstract class BaseRequestInput {
         this.target = target;
     }
 
-    public void setCallback(BiConsumer<Player, String[]> callback) {
+    public void setCallback(BiPredicate<Player, String> callback) {
         this.callback = callback;
     }
 
-    public BiConsumer<Player, String[]> getCallback() {
+    public BiPredicate<Player, String> getCallback() {
         return callback;
+    }
+
+    public void request(boolean err){
+
     }
 }

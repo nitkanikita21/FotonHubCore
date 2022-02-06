@@ -16,12 +16,15 @@ repositories {
     maven("https://papermc.io/repo/repository/maven-public/")
     maven("https://jitpack.io")
     maven("https://repo.dmulloy2.net/repository/public/")
+    maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
 }
 
 dependencies {
     paperDevBundle("1.18.1-R0.1-SNAPSHOT")
     compileOnly(files("libs/AdvancedColorApi.jar"))
     compileOnly("com.comphenix.protocol:ProtocolLib:4.7.0")
+    compileOnly("net.luckperms:api:5.3")
+    compileOnly("me.clip:placeholderapi:2.11.1")
     // compileOnly("org.spigotmc:spigot:1.18.1-R0.1-SNAPSHOT")
 }
 
@@ -31,7 +34,7 @@ bukkit {
     main = "dev.foton.hubcore.Main"
     apiVersion = "1.18"
     authors = listOf("FotonDevTeam")
-    depend = listOf("ProtocolLib")
+    depend = listOf("ProtocolLib","LuckPerms","PlaceholderAPI")
     commands {
         register("menu") {
             usage = "/menu"

@@ -5,6 +5,7 @@ import com.comphenix.protocol.ProtocolManager;
 import dev.foton.chat.ChatListener;
 import dev.foton.chat.ChatManager;
 import dev.foton.chat.settings.ChatPlayer;
+import dev.foton.chat.settings.StyleNameEnum;
 import dev.foton.hubcore.mechanics.MicroMechanicsListener;
 import dev.foton.hubcore.mechanics.hats.Hat;
 import dev.foton.hubcore.mechanics.hats.HatsCollection;
@@ -15,27 +16,32 @@ import dev.foton.hubcore.modules.commands.CustomCommandBuilder;
 import dev.foton.hubcore.modules.interfaces.CustomPacketListener;
 import dev.foton.hubcore.modules.interfaces.MenuListener;
 import dev.foton.hubcore.modules.interfaces.MenuManager;
-import dev.foton.hubcore.modules.interfaces.input.sign.SignMenuInput;
+import dev.foton.hubcore.modules.interfaces.input.BaseRequestInput;
+import dev.foton.hubcore.modules.interfaces.input.InputsManager;
+import dev.foton.hubcore.modules.interfaces.input.chat.ChatInputBuilder;
+import dev.foton.hubcore.modules.interfaces.input.chat.ChatInputListener;
 import dev.foton.hubcore.modules.interfaces.items.Text;
 import dev.foton.hubcore.modules.interfaces.items.sub.OpenMenu;
 import dev.foton.hubcore.modules.interfaces.items.sub.ScriptableButton;
 import dev.foton.hubcore.modules.interfaces.menu.ChestMenu;
 import dev.foton.hubcore.modules.interfaces.menu.DispancerMenu;
-import me.NitkaNikita.AdvancedColorAPI.api.types.AdvancedColor;
 import me.NitkaNikita.AdvancedColorAPI.api.types.builders.GradientTextBuilder;
 import me.NitkaNikita.AdvancedColorAPI.api.types.builders.SolidTextBuilder;
 import me.nitkanikita.particlevisualeffects.ParticleModuleListener;
 import me.nitkanikita.particlevisualeffects.effectengine.RenderEffectRunnable;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextColor;
+import net.luckperms.api.LuckPerms;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.plugin.PluginManager;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public final class Main extends JavaPlugin {
@@ -45,8 +51,13 @@ public final class Main extends JavaPlugin {
     public ProtocolManager getProtocolManager() {
         return protocolManager;
     }
+    public LuckPerms getLuckperms() {
+        return luckperms;
+    }
+
 
     private ProtocolManager protocolManager;
+    private LuckPerms luckperms;
 
     /**
      * @param s
@@ -66,6 +77,11 @@ public final class Main extends JavaPlugin {
 
         protocolManager = ProtocolLibrary.getProtocolManager();
         protocolManager.addPacketListener(new CustomPacketListener());
+
+        RegisteredServiceProvider<LuckPerms> provider = Bukkit.getServicesManager().getRegistration(LuckPerms.class);
+        if (provider != null) {
+            luckperms = provider.getProvider();
+        }
 
         HatsManager.init();
         initMenus();
@@ -262,9 +278,22 @@ public final class Main extends JavaPlugin {
         ScriptableButton nickColor = new ScriptableButton(Material.LIME_DYE, "&2Установить цвет ника", "nickColor", new Vector(1, 1, 1), 1) {
             @Override
             public void OnUse(InventoryClickEvent e) {
-                SignMenuInput.requestInput((Player) e.getWhoClicked(),Arrays.asList("ABC"),(player, strings) -> {
+                BaseRequestInput requestInput = new ChatInputBuilder()
+                        .target((Player) e.getWhoClicked())
+                        .addQuestion(Component.text("Введи HEX цвет (например #33ff00):"))
+                        .callback((player, s) -> {
+                            if(s.startsWith("#") && s.length() == 7){
+                                ChatPlayer chatPlayer = ChatManager.getChatPlayer(player);
+                                chatPlayer.setOption(StyleNameEnum.NICK_COLOR, s);
+                                return true;
+                            }else{
+                                player.sendMessage(Component.text("Повторите ввод!", TextColor.fromHexString("#ff0000")));
+                                return false;
+                            }
+                        })
+                        .build();
 
-                });
+                InputsManager.sendRequest(requestInput);
             }
         };
         nickColor.addDescriptionLine("&7Нажмите что бы ввести цвет");

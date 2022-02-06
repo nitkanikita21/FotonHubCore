@@ -11,7 +11,7 @@ public class ChatManager {
     static Map<Player, ChatPlayer> settings = new HashMap<>();
 
     public static void setChatPlayer(Player p){
-        settings.put(p,new ChatPlayer());
+        settings.put(p,new ChatPlayer(p));
     }
     public static void setChatPlayer(Player p, ChatPlayer chatPlayer){
         settings.put(p,chatPlayer);
