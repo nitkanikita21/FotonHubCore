@@ -1,7 +1,7 @@
 package dev.foton.hubcore.modules.interfaces.items;
 
-import dev.foton.hubcore.modules.interfaces.types.MenuItem;
-import dev.foton.hubcore.modules.interfaces.types.MenuRefeshItem;
+import dev.foton.hubcore.modules.interfaces.menus.old.types.MenuItem;
+import dev.foton.hubcore.modules.interfaces.menus.old.types.MenuRefeshItem;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;

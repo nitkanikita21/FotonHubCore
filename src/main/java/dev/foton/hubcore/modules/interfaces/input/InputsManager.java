@@ -18,7 +18,12 @@ public class InputsManager {
             r.request(false);
             r.getTarget().getOpenInventory().close();
         }else{
-            requests.get(r.getTarget()).add(r);
+            if(requests.get(r.getTarget()).isEmpty()){
+                requests.get(r.getTarget()).add(r);
+                r.request(false);
+            }else {
+                requests.get(r.getTarget()).add(r);
+            }
         }
 
     }

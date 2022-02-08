@@ -1,10 +1,10 @@
-package dev.foton.hubcore.modules.interfaces;
+package dev.foton.hubcore.modules.interfaces.menus.old;
 
 import dev.foton.hubcore.Main;
 import dev.foton.hubcore.modules.interfaces.items.Button;
-import dev.foton.hubcore.modules.interfaces.types.Menu;
-import dev.foton.hubcore.modules.interfaces.types.MenuItem;
-import dev.foton.hubcore.modules.interfaces.types.MenuRefeshItem;
+import dev.foton.hubcore.modules.interfaces.menus.old.types.Menu;
+import dev.foton.hubcore.modules.interfaces.menus.old.types.MenuItem;
+import dev.foton.hubcore.modules.interfaces.menus.old.types.MenuRefeshItem;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

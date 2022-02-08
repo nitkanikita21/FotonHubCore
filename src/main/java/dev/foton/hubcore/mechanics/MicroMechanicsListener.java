@@ -2,7 +2,7 @@ package dev.foton.hubcore.mechanics;
 
 import dev.foton.chat.ChatManager;
 import dev.foton.hubcore.Main;
-import dev.foton.hubcore.modules.interfaces.MenuManager;
+import dev.foton.hubcore.modules.interfaces.menus.old.MenuManager;
 import me.NitkaNikita.AdvancedColorAPI.api.types.builders.GradientTextBuilder;
 
 import org.bukkit.Bukkit;
@@ -14,8 +14,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
-
-import java.util.Arrays;
 
 public class MicroMechanicsListener implements Listener {
 

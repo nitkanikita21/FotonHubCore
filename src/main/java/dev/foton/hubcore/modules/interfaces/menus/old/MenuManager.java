@@ -1,7 +1,7 @@
-package dev.foton.hubcore.modules.interfaces;
+package dev.foton.hubcore.modules.interfaces.menus.old;
 
 
-import dev.foton.hubcore.modules.interfaces.types.Menu;
+import dev.foton.hubcore.modules.interfaces.menus.old.types.Menu;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;

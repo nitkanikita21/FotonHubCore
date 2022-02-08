@@ -1,14 +1,12 @@
 package dev.foton.hubcore.modules.interfaces.items.sub;
 
-import dev.foton.hubcore.modules.interfaces.MenuManager;
+import dev.foton.hubcore.modules.interfaces.menus.old.MenuManager;
 import dev.foton.hubcore.modules.interfaces.items.Button;
-import dev.foton.hubcore.modules.interfaces.types.Menu;
+import dev.foton.hubcore.modules.interfaces.menus.old.types.Menu;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.util.Vector;
-
-import java.util.List;
 
 public class OpenMenu extends Button {
     private final String menuId;

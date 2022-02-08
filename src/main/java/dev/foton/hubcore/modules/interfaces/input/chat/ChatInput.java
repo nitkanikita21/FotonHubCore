@@ -1,5 +1,6 @@
 package dev.foton.hubcore.modules.interfaces.input.chat;
 
+import dev.foton.chat.ChatManager;
 import dev.foton.hubcore.modules.interfaces.input.BaseRequestInput;
 import net.kyori.adventure.text.Component;
 import org.bukkit.entity.Player;
@@ -14,20 +15,22 @@ public class ChatInput extends BaseRequestInput {
         super(target, callback);
     }
 
-    List<Component> questions = new ArrayList<Component>();
+    List<String> questions = new ArrayList<String>();
 
-    public void setQuestions(List<Component> questions) {
+    public void setQuestions(List<String> questions) {
         this.questions = questions;
     }
 
-    public List<Component> getQuestions() {
+    public List<String> getQuestions() {
         return questions;
     }
 
     @Override
     public void request(boolean err) {
-        for (Component question : questions) {
-            target.sendMessage(question);
+        for (String question : questions) {
+            // target.sendMessage(question);
+
+            ChatManager.getChatPlayer(target).systemMessage(question);
         }
     }
 }

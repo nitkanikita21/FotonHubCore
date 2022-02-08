@@ -11,7 +11,7 @@ import java.util.function.BiPredicate;
 
 public class ChatInputBuilder implements InputBuilder {
     private Player target;
-    private final List<Component> questions = new ArrayList<>();
+    private final List<String> questions = new ArrayList<>();
     private BiPredicate<Player, String> callback;
 
     @Override
@@ -21,7 +21,7 @@ public class ChatInputBuilder implements InputBuilder {
     }
 
     @Override
-    public InputBuilder addQuestion(Component question) {
+    public InputBuilder addQuestion(String question) {
         questions.add(question);
         return this;
     }

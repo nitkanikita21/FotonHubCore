@@ -1,4 +1,4 @@
-package dev.foton.hubcore.modules.interfaces.types;
+package dev.foton.hubcore.modules.interfaces.menus.old.types;
 
 import dev.foton.hubcore.Main;
 import org.bukkit.Material;

@@ -1,7 +1,6 @@
-package dev.foton.hubcore.modules.interfaces.types;
+package dev.foton.hubcore.modules.interfaces.menus.old.types;
 
 import dev.foton.hubcore.Main;
-import me.NitkaNikita.AdvancedColorAPI.api.utils.Debug;
 import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.Inventory;
@@ -9,14 +8,13 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
-import org.jline.utils.Log;
 
 
 import java.util.HashMap;
 
 import java.util.Map;
 
-public abstract class Menu{
+public abstract class Menu implements Cloneable{
     protected String title;
     protected String id;
     protected Map<String,MenuItem> elements = new HashMap<>();
@@ -52,7 +50,8 @@ public abstract class Menu{
     }
 
 
-    public final Inventory getInventory() {
+    public final Inventory getInventory(){
+
         Inventory inv = getLocalInventory();
         for (MenuItem el : elements.values()) {
 
@@ -78,4 +77,12 @@ public abstract class Menu{
 
     protected abstract Inventory getLocalInventory();
 
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        Menu m = (Menu)super.clone();
+        m.elements = elements;
+        m.id = id;
+        m.title = title;
+        return m;
+    }
 }

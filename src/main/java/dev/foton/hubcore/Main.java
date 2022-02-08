@@ -4,8 +4,7 @@ import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
 import dev.foton.chat.ChatListener;
 import dev.foton.chat.ChatManager;
-import dev.foton.chat.settings.ChatPlayer;
-import dev.foton.chat.settings.StyleNameEnum;
+import dev.foton.chat.settings.PlayerStyleProfile;
 import dev.foton.hubcore.mechanics.MicroMechanicsListener;
 import dev.foton.hubcore.mechanics.hats.Hat;
 import dev.foton.hubcore.mechanics.hats.HatsCollection;
@@ -13,24 +12,20 @@ import dev.foton.hubcore.mechanics.hats.HatsManager;
 import dev.foton.hubcore.mechanics.npc.NPCManager;
 import dev.foton.hubcore.mechanics.servermanager.ServerConnectionManager;
 import dev.foton.hubcore.modules.commands.CustomCommandBuilder;
-import dev.foton.hubcore.modules.interfaces.CustomPacketListener;
-import dev.foton.hubcore.modules.interfaces.MenuListener;
-import dev.foton.hubcore.modules.interfaces.MenuManager;
+import dev.foton.hubcore.modules.interfaces.menus.old.MenuListener;
+import dev.foton.hubcore.modules.interfaces.menus.old.MenuManager;
 import dev.foton.hubcore.modules.interfaces.input.BaseRequestInput;
 import dev.foton.hubcore.modules.interfaces.input.InputsManager;
 import dev.foton.hubcore.modules.interfaces.input.chat.ChatInputBuilder;
-import dev.foton.hubcore.modules.interfaces.input.chat.ChatInputListener;
 import dev.foton.hubcore.modules.interfaces.items.Text;
 import dev.foton.hubcore.modules.interfaces.items.sub.OpenMenu;
 import dev.foton.hubcore.modules.interfaces.items.sub.ScriptableButton;
-import dev.foton.hubcore.modules.interfaces.menu.ChestMenu;
-import dev.foton.hubcore.modules.interfaces.menu.DispancerMenu;
+import dev.foton.hubcore.modules.interfaces.menus.old.menu.ChestMenu;
+import dev.foton.hubcore.modules.interfaces.menus.old.menu.DispancerMenu;
 import me.NitkaNikita.AdvancedColorAPI.api.types.builders.GradientTextBuilder;
 import me.NitkaNikita.AdvancedColorAPI.api.types.builders.SolidTextBuilder;
 import me.nitkanikita.particlevisualeffects.ParticleModuleListener;
 import me.nitkanikita.particlevisualeffects.effectengine.RenderEffectRunnable;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.TextColor;
 import net.luckperms.api.LuckPerms;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -76,7 +71,6 @@ public final class Main extends JavaPlugin {
         i = this;
 
         protocolManager = ProtocolLibrary.getProtocolManager();
-        protocolManager.addPacketListener(new CustomPacketListener());
 
         RegisteredServiceProvider<LuckPerms> provider = Bukkit.getServicesManager().getRegistration(LuckPerms.class);
         if (provider != null) {
@@ -143,6 +137,8 @@ public final class Main extends JavaPlugin {
         // Plugin shutdown logic
     }
 
+
+    @Deprecated
     public void initMenus(){
         DispancerMenu welcomeMenu = new DispancerMenu(new GradientTextBuilder()
                 .text("&lКуда отправимся?")
@@ -161,7 +157,14 @@ public final class Main extends JavaPlugin {
         };
 
         campfireBtn.addDescriptionLine("");
-        campfireBtn.addDescriptionLine(new SolidTextBuilder().color("#42f5a4").text("Campfire").build().getJsonText() + "&7 - Lorem ipsum dolor sit amet, consectetur adipiscing elit. ");
+        campfireBtn.addDescriptionLine(
+                new SolidTextBuilder()
+                        .color("#42f5a4")
+                        .text("Campfire")
+                        .build()
+                        .getJsonText() +
+                        "&7 - Lorem ipsum dolor sit amet, consectetur adipiscing elit. "
+        );
         campfireBtn.addDescriptionLine("&7Duis id massa efficitur, congue ex quis, rhoncus sem.");
         campfireBtn.addDescriptionLine("&7Nunc bibendum nisl hendrerit tellus ultrices feugiat.");
         campfireBtn.addDescriptionLine("&7Aenean placerat, augue et porta vulputate.");
@@ -198,7 +201,7 @@ public final class Main extends JavaPlugin {
         ){
             @Override
             public void OnUse(InventoryClickEvent e) {
-                MenuManager.open((Player) e.getWhoClicked(),MenuManager.getMenu("customazise_chat"));
+                MenuManager.open((Player) e.getWhoClicked(),MenuManager.getMenu("customazise_theme"));
             }
         };
 
@@ -246,7 +249,11 @@ public final class Main extends JavaPlugin {
                         Hat hat = hats.get(j);
 
                         Text hatText = new Text(hat.getIcon(),
-                                new SolidTextBuilder().text(hat.getName()).color(hat.getColorName()).build().getJsonText(),
+                                new SolidTextBuilder()
+                                        .text(hat.getName())
+                                        .color(hat.getColorName())
+                                        .build()
+                                        .getJsonText(),
                                 hat.getId(),
                                 new Vector(x2,y2,1),1
                         );
@@ -273,31 +280,130 @@ public final class Main extends JavaPlugin {
         MenuManager.addMenu(welcomeMenu);
 
 
-        ChestMenu customizeChat = new ChestMenu(new SolidTextBuilder().text("Настройки чата").color("#00ff00").build().getJsonText(),"customazise_chat", 4);
+        ChestMenu customizeChat = new ChestMenu(
+                new SolidTextBuilder()
+                        .text("Настройки темы")
+                        .color("#00ff00")
+                        .build()
+                        .getJsonText(),
+                "customazise_theme",
+                2
+        );
 
-        ScriptableButton nickColor = new ScriptableButton(Material.LIME_DYE, "&2Установить цвет ника", "nickColor", new Vector(1, 1, 1), 1) {
+        ScriptableButton generalColor = new ScriptableButton(
+                Material.LIME_DYE,
+                "&2Установить главный цвет",
+                "generalColor",
+                new Vector(1, 1, 1),
+                1
+        ) {
             @Override
             public void OnUse(InventoryClickEvent e) {
                 BaseRequestInput requestInput = new ChatInputBuilder()
                         .target((Player) e.getWhoClicked())
-                        .addQuestion(Component.text("Введи HEX цвет (например #33ff00):"))
+                        .addQuestion("Введи HEX цвет (например #33ff00):")
                         .callback((player, s) -> {
+
+                            PlayerStyleProfile chatPlayer = ChatManager.getChatPlayer(player);
+
                             if(s.startsWith("#") && s.length() == 7){
-                                ChatPlayer chatPlayer = ChatManager.getChatPlayer(player);
-                                chatPlayer.setOption(StyleNameEnum.NICK_COLOR, s);
+                                chatPlayer.setOption(PlayerStyleProfile.Styles.GENERAL_COLOR,s);
+                                chatPlayer.systemMessage("Цвет был успешно применён");
+
                                 return true;
-                            }else{
-                                player.sendMessage(Component.text("Повторите ввод!", TextColor.fromHexString("#ff0000")));
-                                return false;
                             }
+                            chatPlayer.systemMessage(
+                                    "Неверный ввод! Повторите",
+                                    PlayerStyleProfile.SystemMessageType.WARNING
+                            );
+
+                            return false;
                         })
                         .build();
 
                 InputsManager.sendRequest(requestInput);
             }
         };
-        nickColor.addDescriptionLine("&7Нажмите что бы ввести цвет");
-        customizeChat.addElement(nickColor);
+        generalColor.addDescriptionLine("&7Нажмите что бы ввести цвет");
+        customizeChat.addElement(generalColor);
+
+
+        ScriptableButton subColor = new ScriptableButton(
+                Material.MAGENTA_DYE,
+                "&2Установить дополнительный цвет",
+                "subColor",
+                new Vector(2, 1, 1),
+                1
+        ) {
+            @Override
+            public void OnUse(InventoryClickEvent e) {
+                BaseRequestInput requestInput = new ChatInputBuilder()
+                        .target((Player) e.getWhoClicked())
+                        .addQuestion("Введи HEX цвет (например #33ff00):")
+                        .callback((player, s) -> {
+
+                            PlayerStyleProfile chatPlayer = ChatManager.getChatPlayer(player);
+
+                            if(s.startsWith("#") && s.length() == 7){
+                                chatPlayer.setOption(PlayerStyleProfile.Styles.SUB_COLOR,s);
+                                chatPlayer.systemMessage("Цвет был успешно применён");
+
+                                return true;
+                            }
+                            chatPlayer.systemMessage(
+                                    "Неверный ввод! Повторите",
+                                    PlayerStyleProfile.SystemMessageType.WARNING
+                            );
+
+                            return false;
+                        })
+                        .build();
+
+                InputsManager.sendRequest(requestInput);
+            }
+        };
+        subColor.addDescriptionLine("&7Нажмите что бы ввести цвет");
+        customizeChat.addElement(subColor);
+
+
+        ScriptableButton specialColor = new ScriptableButton(
+                Material.ORANGE_DYE,
+                "&2Установить специальный цвет",
+                "specialColor",
+                new Vector(3, 1, 1),
+                1
+        ) {
+            @Override
+            public void OnUse(InventoryClickEvent e) {
+                BaseRequestInput requestInput = new ChatInputBuilder()
+                        .target((Player) e.getWhoClicked())
+                        .addQuestion("Введи HEX цвет (например #33ff00):")
+                        .callback((player, s) -> {
+
+                            PlayerStyleProfile chatPlayer = ChatManager.getChatPlayer(player);
+
+                            if(s.startsWith("#") && s.length() == 7){
+                                chatPlayer.setOption(PlayerStyleProfile.Styles.SPECIAL_COLOR,s);
+                                chatPlayer.systemMessage("Цвет был успешно применён");
+
+                                return true;
+                            }
+                            chatPlayer.systemMessage(
+                                    "Неверный ввод! Повторите",
+                                    PlayerStyleProfile.SystemMessageType.WARNING
+                            );
+
+                            return false;
+                        })
+                        .build();
+
+                InputsManager.sendRequest(requestInput);
+
+
+            }
+        };
+        specialColor.addDescriptionLine("&7Нажмите что бы ввести цвет");
+        customizeChat.addElement(specialColor);
 
         MenuManager.addMenu(customizeChat);
 

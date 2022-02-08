@@ -18,7 +18,7 @@ import org.jline.utils.Log;
 
 public class ChatListener implements Listener {
 
-    private ChatInputListener listener;
+    private final ChatInputListener listener = new ChatInputListener();
 
     @EventHandler
     public void onChatMessage(AsyncChatEvent e) {
@@ -32,8 +32,10 @@ public class ChatListener implements Listener {
         if(listener.check(e)){
             e.setCancelled(true);
             for (Player player : Bukkit.getOnlinePlayers()) {
-                ChatManager.getChatPlayer(player).chatMessage(PlainTextComponentSerializer.plainText().serialize(e.message()));
+                ChatManager.getChatPlayer(player).chatMessage(e.getPlayer(),PlainTextComponentSerializer.plainText().serialize(e.message()));
             }
+        }else {
+            e.setCancelled(true);
         }
     }
 }
