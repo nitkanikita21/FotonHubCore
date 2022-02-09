@@ -29,13 +29,10 @@ public class PlayerStyleProfile {
                 "#a5f252"
         );
         options.put(Styles.SUB_COLOR,
-                "#5B5F97"
+                "#4fb6ff"
         );
         options.put(Styles.SPECIAL_COLOR,
                 "#EFF7FF"
-        );
-        options.put(Styles.GRAY_COLOR,
-                "#44344F"
         );
 
         //Non changeable colors
@@ -52,10 +49,14 @@ public class PlayerStyleProfile {
                 "#0011ff"
         );
 
+        options.put(Styles.GRAY_COLOR,
+                "#808080"
+        );
+
 
         //Others
         options.put(Styles.ARROW,
-                ">"
+                "→"
         );
     }
 

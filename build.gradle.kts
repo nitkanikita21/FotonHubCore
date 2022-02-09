@@ -34,7 +34,7 @@ bukkit {
     main = "dev.foton.hubcore.Main"
     apiVersion = "1.18"
     authors = listOf("FotonDevTeam")
-    depend = listOf("ProtocolLib","LuckPerms","PlaceholderAPI")
+    depend = listOf("ProtocolLib","LuckPerms","PlaceholderAPI","AdvancedColorAPI")
     commands {
         register("menu") {
             usage = "/menu"
@@ -48,6 +48,9 @@ bukkit {
         register("spawnnpc") {
             usage = "/spawnnpc"
         }
+    }
+    permissions {
+        register("hub.menu.admin")
     }
 }
 

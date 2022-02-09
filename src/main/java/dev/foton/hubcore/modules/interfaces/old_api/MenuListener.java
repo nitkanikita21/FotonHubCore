@@ -1,10 +1,10 @@
-package dev.foton.hubcore.modules.interfaces.menus.old;
+package dev.foton.hubcore.modules.interfaces.old_api;
 
 import dev.foton.hubcore.Main;
-import dev.foton.hubcore.modules.interfaces.items.Button;
-import dev.foton.hubcore.modules.interfaces.menus.old.types.Menu;
-import dev.foton.hubcore.modules.interfaces.menus.old.types.MenuItem;
-import dev.foton.hubcore.modules.interfaces.menus.old.types.MenuRefeshItem;
+import dev.foton.hubcore.modules.interfaces.old_api.items.Button;
+import dev.foton.hubcore.modules.interfaces.old_api.types.Menu;
+import dev.foton.hubcore.modules.interfaces.old_api.types.MenuItem;
+import dev.foton.hubcore.modules.interfaces.old_api.types.MenuRefeshItem;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -14,7 +14,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
-public class MenuListener implements Listener {
+public final class MenuListener implements Listener {
     @EventHandler
     public void onClickItem(InventoryClickEvent e){
         if(!(e.getWhoClicked() instanceof Player))return;

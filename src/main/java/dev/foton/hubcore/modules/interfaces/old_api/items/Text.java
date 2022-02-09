@@ -1,6 +1,6 @@
-package dev.foton.hubcore.modules.interfaces.items;
+package dev.foton.hubcore.modules.interfaces.old_api.items;
 
-import dev.foton.hubcore.modules.interfaces.menus.old.types.MenuItem;
+import dev.foton.hubcore.modules.interfaces.old_api.types.MenuItem;
 import org.bukkit.Material;
 import org.bukkit.util.Vector;
 

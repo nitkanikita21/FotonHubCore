@@ -1,8 +1,8 @@
-package dev.foton.hubcore.modules.interfaces.items.sub;
+package dev.foton.hubcore.modules.interfaces.old_api.items.sub;
 
-import dev.foton.hubcore.modules.interfaces.menus.old.MenuManager;
-import dev.foton.hubcore.modules.interfaces.items.Button;
-import dev.foton.hubcore.modules.interfaces.menus.old.types.Menu;
+import dev.foton.hubcore.modules.interfaces.old_api.MenuManager;
+import dev.foton.hubcore.modules.interfaces.old_api.items.Button;
+import dev.foton.hubcore.modules.interfaces.old_api.types.Menu;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;

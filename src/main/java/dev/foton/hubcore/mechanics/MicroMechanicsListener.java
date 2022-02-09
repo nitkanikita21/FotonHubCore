@@ -1,8 +1,8 @@
 package dev.foton.hubcore.mechanics;
 
-import dev.foton.chat.ChatManager;
+import dev.foton.chat.StyleProfilesManager;
 import dev.foton.hubcore.Main;
-import dev.foton.hubcore.modules.interfaces.menus.old.MenuManager;
+import dev.foton.hubcore.modules.interfaces.old_api.MenuManager;
 import me.NitkaNikita.AdvancedColorAPI.api.types.builders.GradientTextBuilder;
 
 import org.bukkit.Bukkit;
@@ -15,7 +15,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
-public class MicroMechanicsListener implements Listener {
+public final class MicroMechanicsListener implements Listener {
 
 
     @EventHandler
@@ -63,8 +63,8 @@ public class MicroMechanicsListener implements Listener {
     }
 
     public void regChatSettings(Player p){
-        if(!ChatManager.checkRegistry(p)){
-            ChatManager.setChatPlayer(p);
+        if(!StyleProfilesManager.checkRegistry(p)){
+            StyleProfilesManager.setProfile(p);
         }
     }
 }

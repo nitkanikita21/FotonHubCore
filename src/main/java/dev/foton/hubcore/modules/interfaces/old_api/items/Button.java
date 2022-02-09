@@ -1,6 +1,6 @@
-package dev.foton.hubcore.modules.interfaces.items;
+package dev.foton.hubcore.modules.interfaces.old_api.items;
 
-import dev.foton.hubcore.modules.interfaces.menus.old.types.MenuRefeshItem;
+import dev.foton.hubcore.modules.interfaces.old_api.types.MenuRefeshItem;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.event.inventory.InventoryClickEvent;

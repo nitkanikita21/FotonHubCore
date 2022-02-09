@@ -6,18 +6,18 @@ import org.bukkit.entity.Player;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ChatManager {
+public class StyleProfilesManager {
 
     static Map<Player, PlayerStyleProfile> settings = new HashMap<>();
 
-    public static void setChatPlayer(Player p){
+    public static void setProfile(Player p){
         settings.put(p,new PlayerStyleProfile(p));
     }
-    public static void setChatPlayer(Player p, PlayerStyleProfile chatPlayer){
+    public static void setProfile(Player p, PlayerStyleProfile chatPlayer){
         settings.put(p,chatPlayer);
     }
 
-    public static PlayerStyleProfile getChatPlayer(Player p){
+    public static PlayerStyleProfile getProfile(Player p){
         return settings.get(p);
     }
 

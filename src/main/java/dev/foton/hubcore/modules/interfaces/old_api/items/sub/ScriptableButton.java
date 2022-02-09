@@ -1,11 +1,9 @@
-package dev.foton.hubcore.modules.interfaces.items.sub;
+package dev.foton.hubcore.modules.interfaces.old_api.items.sub;
 
-import dev.foton.hubcore.modules.interfaces.items.Button;
+import dev.foton.hubcore.modules.interfaces.old_api.items.Button;
 import org.bukkit.Material;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.util.Vector;
-
-import java.util.List;
 
 public abstract class ScriptableButton extends Button {
 

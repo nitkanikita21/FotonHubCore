@@ -1,10 +1,9 @@
-package dev.foton.hubcore.modules.interfaces.items.sub;
+package dev.foton.hubcore.modules.interfaces.old_api.items.sub;
 
-import dev.foton.hubcore.modules.interfaces.items.Text;
+import dev.foton.hubcore.modules.interfaces.old_api.items.Text;
 import org.bukkit.Material;
 import org.bukkit.util.Vector;
 
-import java.util.ArrayList;
 import java.util.UUID;
 
 public class EmptyElement extends Text {

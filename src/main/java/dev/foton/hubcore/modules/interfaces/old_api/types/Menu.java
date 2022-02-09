@@ -1,4 +1,4 @@
-package dev.foton.hubcore.modules.interfaces.menus.old.types;
+package dev.foton.hubcore.modules.interfaces.old_api.types;
 
 import dev.foton.hubcore.Main;
 import org.bukkit.NamespacedKey;

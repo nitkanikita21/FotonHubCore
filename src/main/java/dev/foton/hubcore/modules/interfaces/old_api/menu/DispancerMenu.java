@@ -1,6 +1,6 @@
-package dev.foton.hubcore.modules.interfaces.menus.old.menu;
+package dev.foton.hubcore.modules.interfaces.old_api.menu;
 
-import dev.foton.hubcore.modules.interfaces.menus.old.types.Menu;
+import dev.foton.hubcore.modules.interfaces.old_api.types.Menu;
 import org.bukkit.Bukkit;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;

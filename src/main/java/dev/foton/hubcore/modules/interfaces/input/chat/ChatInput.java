@@ -1,13 +1,11 @@
 package dev.foton.hubcore.modules.interfaces.input.chat;
 
-import dev.foton.chat.ChatManager;
+import dev.foton.chat.StyleProfilesManager;
 import dev.foton.hubcore.modules.interfaces.input.BaseRequestInput;
-import net.kyori.adventure.text.Component;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.BiConsumer;
 import java.util.function.BiPredicate;
 
 public class ChatInput extends BaseRequestInput {
@@ -30,7 +28,7 @@ public class ChatInput extends BaseRequestInput {
         for (String question : questions) {
             // target.sendMessage(question);
 
-            ChatManager.getChatPlayer(target).systemMessage(question);
+            StyleProfilesManager.getProfile(target).systemMessage(question);
         }
     }
 }

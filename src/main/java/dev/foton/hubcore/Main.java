@@ -3,41 +3,31 @@ package dev.foton.hubcore;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
 import dev.foton.chat.ChatListener;
-import dev.foton.chat.ChatManager;
+import dev.foton.chat.StyleProfilesManager;
 import dev.foton.chat.settings.PlayerStyleProfile;
 import dev.foton.hubcore.mechanics.MicroMechanicsListener;
-import dev.foton.hubcore.mechanics.hats.Hat;
-import dev.foton.hubcore.mechanics.hats.HatsCollection;
 import dev.foton.hubcore.mechanics.hats.HatsManager;
 import dev.foton.hubcore.mechanics.npc.NPCManager;
 import dev.foton.hubcore.mechanics.servermanager.ServerConnectionManager;
 import dev.foton.hubcore.modules.commands.CustomCommandBuilder;
-import dev.foton.hubcore.modules.interfaces.menus.old.MenuListener;
-import dev.foton.hubcore.modules.interfaces.menus.old.MenuManager;
-import dev.foton.hubcore.modules.interfaces.input.BaseRequestInput;
-import dev.foton.hubcore.modules.interfaces.input.InputsManager;
-import dev.foton.hubcore.modules.interfaces.input.chat.ChatInputBuilder;
-import dev.foton.hubcore.modules.interfaces.items.Text;
-import dev.foton.hubcore.modules.interfaces.items.sub.OpenMenu;
-import dev.foton.hubcore.modules.interfaces.items.sub.ScriptableButton;
-import dev.foton.hubcore.modules.interfaces.menus.old.menu.ChestMenu;
-import dev.foton.hubcore.modules.interfaces.menus.old.menu.DispancerMenu;
-import me.NitkaNikita.AdvancedColorAPI.api.types.builders.GradientTextBuilder;
-import me.NitkaNikita.AdvancedColorAPI.api.types.builders.SolidTextBuilder;
+import dev.foton.hubcore.modules.interfaces.InventoryListener;
+import dev.foton.hubcore.modules.interfaces.Point;
+import dev.foton.hubcore.modules.interfaces.elements.Button;
+import dev.foton.hubcore.modules.interfaces.menus.ChestMenu;
+import dev.foton.hubcore.modules.interfaces.utils.ItemStackBuilder;
 import me.nitkanikita.particlevisualeffects.ParticleModuleListener;
 import me.nitkanikita.particlevisualeffects.effectengine.RenderEffectRunnable;
+import net.kyori.adventure.key.Key;
+import net.kyori.adventure.sound.Sound;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextColor;
 import net.luckperms.api.LuckPerms;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.util.Vector;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public final class Main extends JavaPlugin {
 
@@ -54,17 +44,6 @@ public final class Main extends JavaPlugin {
     private ProtocolManager protocolManager;
     private LuckPerms luckperms;
 
-    /**
-     * @param s
-     * @return String
-     * УДалить нахуй єту залупу
-     * Юзать метод в ChatColor
-     */
-    @Deprecated
-    public static String format(String s){
-        return s.replaceAll("&","\u00A7");
-    }
-
     @Override
     public void onEnable() {
         // Plugin startup logic
@@ -78,21 +57,22 @@ public final class Main extends JavaPlugin {
         }
 
         HatsManager.init();
-        initMenus();
+        //initMenus();
 
         CustomCommandBuilder.setPlugin(this);
 
         getServer().getScheduler().scheduleSyncRepeatingTask(this,new RenderEffectRunnable(),0,1);
 
         PluginManager pluginManager = getServer().getPluginManager();
-        pluginManager.registerEvents(new MenuListener(),this);
+        //pluginManager.registerEvents(new MenuListener(),this);
+        pluginManager.registerEvents(new InventoryListener(),this);
         pluginManager.registerEvents(new ParticleModuleListener(),this);
         pluginManager.registerEvents(new MicroMechanicsListener(),this);
         pluginManager.registerEvents(new ChatListener(),this);
 
         for (Player p : Bukkit.getOnlinePlayers()) {
-            if(!ChatManager.checkRegistry(p)){
-                ChatManager.setChatPlayer(p);
+            if(!StyleProfilesManager.checkRegistry(p)){
+                StyleProfilesManager.setProfile(p);
             }
         }
 
@@ -101,14 +81,82 @@ public final class Main extends JavaPlugin {
         new CustomCommandBuilder()
                 .name("games").executor((commandSender, strings) -> {
             if (commandSender instanceof Player){
-                MenuManager.open((Player) commandSender,MenuManager.getMenu("menu_go_to"));
+                //MenuManager.open((Player) commandSender,MenuManager.getMenu("menu_go_to"));
             }
         }).registryPlugin();
 
         new CustomCommandBuilder()
                 .name("menu").executor((commandSender, strings) -> {
             if (commandSender instanceof Player){
-                MenuManager.open((Player) commandSender,MenuManager.getMenu("menu_all_menu"));
+                //MenuManager.open((Player) commandSender,MenuManager.getMenu("menu_all_menu"));
+
+                PlayerStyleProfile profile = StyleProfilesManager.getProfile((Player) commandSender);
+
+                ChestMenu chestMenu = new ChestMenu(3, Component.text(
+                        "Главное меню",
+                        TextColor.fromHexString("#00ff00")
+                ));
+
+                chestMenu.setSlot(new Point(1,1), new Button(
+                        new ItemStackBuilder(Material.COMPARATOR)
+                                .setDisplayName(Component.text(
+                                        "Настройки",
+                                        TextColor.fromHexString(profile.getOption(PlayerStyleProfile.Styles.GENERAL_COLOR))
+                                ))
+                                .build(),
+                        e -> {
+
+                        }
+                ));
+
+                chestMenu.setSlot(new Point(4,1), new Button(
+                        new ItemStackBuilder(Material.COMPASS)
+                                .setDisplayName(Component.text(
+                                        "Наши сервера",
+                                        TextColor.fromHexString(profile.getOption(PlayerStyleProfile.Styles.GENERAL_COLOR))
+                                ))
+                                .setLore(Component.text(
+                                        "У нас чета можна",
+                                        TextColor.fromHexString(profile.getOption(PlayerStyleProfile.Styles.GRAY_COLOR))
+                                ))
+                                .build(),
+                        e -> {
+
+                        }
+                ));
+
+                chestMenu.setSlot(new Point(7,1), new Button(
+                        new ItemStackBuilder(Material.NETHER_STAR)
+                                .setDisplayName(Component.text(
+                                        "Прочее",
+                                        TextColor.fromHexString(profile.getOption(PlayerStyleProfile.Styles.GENERAL_COLOR))
+                                ))
+                                .build(),
+                        e -> {
+
+                        }
+                ));
+
+                if(commandSender.hasPermission(Permissions.ADMIN_PANEL+"")){
+                    chestMenu.setSlot(new Point(4,0), new Button(
+                            new ItemStackBuilder(Material.REPEATING_COMMAND_BLOCK)
+                                    .setDisplayName(Component.text(
+                                            "Административное",
+                                            TextColor.fromHexString(profile.getOption(PlayerStyleProfile.Styles.DEBUG_COLOR))
+                                    ))
+                                    .setLore(Component.text(
+                                            "У нас чета можна",
+                                            TextColor.fromHexString(profile.getOption(PlayerStyleProfile.Styles.GRAY_COLOR))
+                                    ))
+                                    .build(),
+                            e -> {
+
+                            }
+                    ));
+                }
+
+
+                chestMenu.openMenu((Player) commandSender);
             }
         }).registryPlugin();
 
@@ -125,7 +173,7 @@ public final class Main extends JavaPlugin {
         new CustomCommandBuilder()
                 .name("hats").executor((commandSender, strings) -> {
             if (commandSender instanceof Player){
-                MenuManager.open((Player) commandSender,MenuManager.getMenu("hats"));
+                //MenuManager.open((Player) commandSender,MenuManager.getMenu("hats"));
             }
         }).registryPlugin();
 
@@ -138,7 +186,7 @@ public final class Main extends JavaPlugin {
     }
 
 
-    @Deprecated
+    /*@Deprecated
     public void initMenus(){
         DispancerMenu welcomeMenu = new DispancerMenu(new GradientTextBuilder()
                 .text("&lКуда отправимся?")
@@ -408,5 +456,5 @@ public final class Main extends JavaPlugin {
         MenuManager.addMenu(customizeChat);
 
 
-    }
+    }*/
 }

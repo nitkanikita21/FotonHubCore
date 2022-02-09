@@ -1,4 +1,4 @@
-package dev.foton.hubcore.modules.interfaces.menus.old.types;
+package dev.foton.hubcore.modules.interfaces.old_api.types;
 
 import org.bukkit.Material;
 import org.bukkit.event.inventory.InventoryClickEvent;

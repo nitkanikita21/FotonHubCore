@@ -1,13 +1,13 @@
-package dev.foton.hubcore.modules.interfaces.menus.old;
+package dev.foton.hubcore.modules.interfaces.old_api;
 
 
-import dev.foton.hubcore.modules.interfaces.menus.old.types.Menu;
+import dev.foton.hubcore.modules.interfaces.old_api.types.Menu;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class MenuManager {
+public final class MenuManager {
     private static Map<String, Menu> menus = new HashMap<>();
 
     public static Menu getMenu(String id){
