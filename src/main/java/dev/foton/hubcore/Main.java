@@ -88,75 +88,9 @@ public final class Main extends JavaPlugin {
         new CustomCommandBuilder()
                 .name("menu").executor((commandSender, strings) -> {
             if (commandSender instanceof Player){
-                //MenuManager.open((Player) commandSender,MenuManager.getMenu("menu_all_menu"));
 
-                PlayerStyleProfile profile = StyleProfilesManager.getProfile((Player) commandSender);
+                MenuPrefabs.GENERAL_MENU((Player) commandSender).openMenu((Player) commandSender);
 
-                ChestMenu chestMenu = new ChestMenu(3, Component.text(
-                        "Главное меню",
-                        TextColor.fromHexString("#00ff00")
-                ));
-
-                chestMenu.setSlot(new Point(1,1), new Button(
-                        new ItemStackBuilder(Material.COMPARATOR)
-                                .setDisplayName(Component.text(
-                                        "Настройки",
-                                        TextColor.fromHexString(profile.getOption(PlayerStyleProfile.Styles.GENERAL_COLOR))
-                                ))
-                                .build(),
-                        e -> {
-
-                        }
-                ));
-
-                chestMenu.setSlot(new Point(4,1), new Button(
-                        new ItemStackBuilder(Material.COMPASS)
-                                .setDisplayName(Component.text(
-                                        "Наши сервера",
-                                        TextColor.fromHexString(profile.getOption(PlayerStyleProfile.Styles.GENERAL_COLOR))
-                                ))
-                                .setLore(Component.text(
-                                        "У нас чета можна",
-                                        TextColor.fromHexString(profile.getOption(PlayerStyleProfile.Styles.GRAY_COLOR))
-                                ))
-                                .build(),
-                        e -> {
-
-                        }
-                ));
-
-                chestMenu.setSlot(new Point(7,1), new Button(
-                        new ItemStackBuilder(Material.NETHER_STAR)
-                                .setDisplayName(Component.text(
-                                        "Прочее",
-                                        TextColor.fromHexString(profile.getOption(PlayerStyleProfile.Styles.GENERAL_COLOR))
-                                ))
-                                .build(),
-                        e -> {
-
-                        }
-                ));
-
-                if(commandSender.hasPermission(Permissions.ADMIN_PANEL+"")){
-                    chestMenu.setSlot(new Point(4,0), new Button(
-                            new ItemStackBuilder(Material.REPEATING_COMMAND_BLOCK)
-                                    .setDisplayName(Component.text(
-                                            "Административное",
-                                            TextColor.fromHexString(profile.getOption(PlayerStyleProfile.Styles.DEBUG_COLOR))
-                                    ))
-                                    .setLore(Component.text(
-                                            "У нас чета можна",
-                                            TextColor.fromHexString(profile.getOption(PlayerStyleProfile.Styles.GRAY_COLOR))
-                                    ))
-                                    .build(),
-                            e -> {
-
-                            }
-                    ));
-                }
-
-
-                chestMenu.openMenu((Player) commandSender);
             }
         }).registryPlugin();
 
@@ -171,9 +105,9 @@ public final class Main extends JavaPlugin {
         }).registryPlugin();
 
         new CustomCommandBuilder()
-                .name("hats").executor((commandSender, strings) -> {
+                .name("admin").executor((commandSender, strings) -> {
             if (commandSender instanceof Player){
-                //MenuManager.open((Player) commandSender,MenuManager.getMenu("hats"));
+                MenuPrefabs.ADMIN_MENU((Player) commandSender).openMenu((Player) commandSender);
             }
         }).registryPlugin();
 
