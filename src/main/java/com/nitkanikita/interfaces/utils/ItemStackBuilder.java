@@ -1,7 +1,6 @@
-package dev.foton.hubcore.modules.interfaces.utils;
+package com.nitkanikita.interfaces.utils;
 
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.Style;
 import net.kyori.adventure.text.format.TextDecoration;
 import org.bukkit.Color;
 import org.bukkit.Material;

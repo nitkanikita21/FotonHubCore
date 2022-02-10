@@ -1,8 +1,7 @@
-package dev.foton.hubcore.modules.interfaces.input.chat;
+package com.nitkanikita.interfaces.input.chat;
 
-import dev.foton.hubcore.modules.interfaces.input.BaseRequestInput;
-import dev.foton.hubcore.modules.interfaces.input.InputBuilder;
-import net.kyori.adventure.text.Component;
+import com.nitkanikita.interfaces.input.BaseRequestInput;
+import com.nitkanikita.interfaces.input.InputBuilder;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;

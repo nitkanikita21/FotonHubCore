@@ -1,4 +1,4 @@
-package dev.foton.hubcore.modules.interfaces;
+package com.nitkanikita.interfaces;
 
 public record Point(int x, int y) {
     public static Point zero(){

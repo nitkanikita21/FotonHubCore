@@ -4,26 +4,16 @@ import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
 import dev.foton.chat.ChatListener;
 import dev.foton.chat.StyleProfilesManager;
-import dev.foton.chat.settings.PlayerStyleProfile;
 import dev.foton.hubcore.mechanics.MicroMechanicsListener;
 import dev.foton.hubcore.mechanics.hats.HatsManager;
 import dev.foton.hubcore.mechanics.npc.NPCManager;
 import dev.foton.hubcore.mechanics.servermanager.ServerConnectionManager;
 import dev.foton.hubcore.modules.commands.CustomCommandBuilder;
-import dev.foton.hubcore.modules.interfaces.InventoryListener;
-import dev.foton.hubcore.modules.interfaces.Point;
-import dev.foton.hubcore.modules.interfaces.elements.Button;
-import dev.foton.hubcore.modules.interfaces.menus.ChestMenu;
-import dev.foton.hubcore.modules.interfaces.utils.ItemStackBuilder;
+import com.nitkanikita.interfaces.InventoryListener;
 import me.nitkanikita.particlevisualeffects.ParticleModuleListener;
 import me.nitkanikita.particlevisualeffects.effectengine.RenderEffectRunnable;
-import net.kyori.adventure.key.Key;
-import net.kyori.adventure.sound.Sound;
-import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.TextColor;
 import net.luckperms.api.LuckPerms;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
@@ -105,7 +95,7 @@ public final class Main extends JavaPlugin {
         }).registryPlugin();
 
         new CustomCommandBuilder()
-                .name("admin").executor((commandSender, strings) -> {
+                .name("admin_menu").executor((commandSender, strings) -> {
             if (commandSender instanceof Player){
                 MenuPrefabs.ADMIN_MENU((Player) commandSender).openMenu((Player) commandSender);
             }

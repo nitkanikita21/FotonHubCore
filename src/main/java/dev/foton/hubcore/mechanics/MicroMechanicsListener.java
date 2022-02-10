@@ -1,8 +1,9 @@
 package dev.foton.hubcore.mechanics;
 
 import dev.foton.chat.StyleProfilesManager;
+import dev.foton.chat.settings.PlayerStyleProfile;
 import dev.foton.hubcore.Main;
-import dev.foton.hubcore.modules.interfaces.old_api.MenuManager;
+import dev.foton.hubcore.MenuPrefabs;
 import me.NitkaNikita.AdvancedColorAPI.api.types.builders.GradientTextBuilder;
 
 import org.bukkit.Bukkit;
@@ -22,7 +23,7 @@ public final class MicroMechanicsListener implements Listener {
     public void playerJoin(PlayerJoinEvent event){
         Player p = event.getPlayer();
 
-
+        PlayerStyleProfile profile = StyleProfilesManager.getProfile(p);
 
         if(!Bukkit.getOfflinePlayer(p.getUniqueId()).hasPlayedBefore()){
             p.sendTitle(
@@ -40,7 +41,7 @@ public final class MicroMechanicsListener implements Listener {
 
 
             Bukkit.getScheduler().scheduleSyncDelayedTask(Main.i,() -> {
-                MenuManager.open(p,MenuManager.getMenu("menu_all_menu"));
+                MenuPrefabs.GENERAL_MENU(p).openMenu(p);
                 p.sendMessage(ChatColor.GRAY + "Что бы снова открыть данное меню, введи " + ChatColor.GOLD + " /menu");
             },60);
         }else {

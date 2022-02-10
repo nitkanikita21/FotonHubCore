@@ -1,6 +1,5 @@
-package dev.foton.hubcore.modules.interfaces.input;
+package com.nitkanikita.interfaces.input;
 
-import net.kyori.adventure.text.Component;
 import org.bukkit.entity.Player;
 
 import java.util.function.BiPredicate;

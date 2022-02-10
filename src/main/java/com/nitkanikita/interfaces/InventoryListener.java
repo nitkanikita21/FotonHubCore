@@ -1,6 +1,6 @@
-package dev.foton.hubcore.modules.interfaces;
+package com.nitkanikita.interfaces;
 
-import dev.foton.hubcore.modules.interfaces.menus.Menu;
+import com.nitkanikita.interfaces.menus.Menu;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

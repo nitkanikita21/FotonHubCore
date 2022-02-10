@@ -39,6 +39,9 @@ bukkit {
         register("menu") {
             usage = "/menu"
         }
+        register("admin_menu") {
+            usage = "/admin_menu"
+        }
         register("games") {
             usage = "/games"
         }

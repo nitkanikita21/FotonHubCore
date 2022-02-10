@@ -1,4 +1,4 @@
-package dev.foton.hubcore.modules.interfaces.elements;
+package com.nitkanikita.interfaces.elements;
 
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.sound.Sound;

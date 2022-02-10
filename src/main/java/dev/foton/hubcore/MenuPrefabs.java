@@ -2,18 +2,16 @@ package dev.foton.hubcore;
 
 import dev.foton.chat.StyleProfilesManager;
 import dev.foton.chat.settings.PlayerStyleProfile;
-import dev.foton.hubcore.modules.interfaces.Point;
-import dev.foton.hubcore.modules.interfaces.elements.Button;
-import dev.foton.hubcore.modules.interfaces.menus.ChestMenu;
-import dev.foton.hubcore.modules.interfaces.menus.Menu;
-import dev.foton.hubcore.modules.interfaces.utils.ItemStackBuilder;
+import com.nitkanikita.interfaces.Point;
+import com.nitkanikita.interfaces.elements.Button;
+import com.nitkanikita.interfaces.menus.ChestMenu;
+import com.nitkanikita.interfaces.menus.Menu;
+import com.nitkanikita.interfaces.utils.ItemStackBuilder;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-
-import java.util.function.Function;
 
 public class MenuPrefabs {
 
@@ -80,7 +78,7 @@ public class MenuPrefabs {
                             ))
                             .build(),
                     e -> {
-
+                        ADMIN_MENU(viewer).openMenu(viewer);
                     }
             ));
         }
@@ -111,8 +109,20 @@ public class MenuPrefabs {
                             "Внимание! Начинается перезагрузка сервера",
                             PlayerStyleProfile.SystemMessageType.WARNING
                     );
+                    viewer.closeInventory();
                     Bukkit.reload();
                 }
+        ));
+
+        return menu;
+    }
+
+    public static Menu SETTINGS_MENU(Player viewer){
+        PlayerStyleProfile profile = StyleProfilesManager.getProfile(viewer);
+
+        ChestMenu menu = new ChestMenu(3,Component.text(
+                "Настройки",
+                TextColor.fromHexString(profile.getOption(PlayerStyleProfile.Styles.GENERAL_COLOR))
         ));
 
         return menu;

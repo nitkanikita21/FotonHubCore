@@ -1,4 +1,4 @@
-package dev.foton.hubcore.modules.interfaces.input;
+package com.nitkanikita.interfaces.input;
 
 import org.bukkit.entity.Player;
 

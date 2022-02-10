@@ -1,6 +1,6 @@
 package dev.foton.chat;
 
-import dev.foton.hubcore.modules.interfaces.input.chat.ChatInputListener;
+import com.nitkanikita.interfaces.input.chat.ChatInputListener;
 import io.papermc.paper.event.player.AsyncChatEvent;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Bukkit;

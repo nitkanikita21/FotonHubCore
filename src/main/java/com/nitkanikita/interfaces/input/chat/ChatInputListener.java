@@ -1,13 +1,9 @@
-package dev.foton.hubcore.modules.interfaces.input.chat;
+package com.nitkanikita.interfaces.input.chat;
 
-import dev.foton.hubcore.modules.interfaces.input.BaseRequestInput;
-import dev.foton.hubcore.modules.interfaces.input.InputsManager;
+import com.nitkanikita.interfaces.input.BaseRequestInput;
+import com.nitkanikita.interfaces.input.InputsManager;
 import io.papermc.paper.event.player.AsyncChatEvent;
-import io.papermc.paper.event.player.ChatEvent;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
 
 import java.util.Deque;
 

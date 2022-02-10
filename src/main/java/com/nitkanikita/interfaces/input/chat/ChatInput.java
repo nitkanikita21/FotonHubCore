@@ -1,7 +1,7 @@
-package dev.foton.hubcore.modules.interfaces.input.chat;
+package com.nitkanikita.interfaces.input.chat;
 
+import com.nitkanikita.interfaces.input.BaseRequestInput;
 import dev.foton.chat.StyleProfilesManager;
-import dev.foton.hubcore.modules.interfaces.input.BaseRequestInput;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;

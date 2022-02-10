@@ -1,5 +1,9 @@
 package dev.foton.chat.settings;
 
+import com.comphenix.protocol.PacketType;
+import com.comphenix.protocol.ProtocolManager;
+import com.comphenix.protocol.events.PacketContainer;
+import dev.foton.hubcore.Main;
 import me.clip.placeholderapi.PlaceholderAPI;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
@@ -95,16 +99,11 @@ public class PlayerStyleProfile {
                 "[Система]",
                 TextColor.fromHexString(options.get(Styles.GENERAL_COLOR))
         ));
-        start = start.append(Component.space());
-        start = start.append(Component.text(
-                "["+type.name()+"]",
-                TextColor.fromHexString(options.get(Styles.valueOf(type.name()+"_COLOR")))
-        ));
 
         start = start.append(Component.space());
         start = start.append(Component.text(
                 message,
-                TextColor.fromHexString(options.get(Styles.SPECIAL_COLOR))
+                TextColor.fromHexString(options.get(Styles.valueOf(type.name()+"_COLOR")))
         ));
 
         return start;
@@ -120,8 +119,6 @@ public class PlayerStyleProfile {
     public void systemMessage(String message){
         player.sendMessage(renderSystemMessage(message, SystemMessageType.INFO));
     }
-
-
 
     public enum Styles {
         GENERAL_COLOR,

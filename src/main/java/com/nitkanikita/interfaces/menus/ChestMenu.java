@@ -1,7 +1,7 @@
-package dev.foton.hubcore.modules.interfaces.menus;
+package com.nitkanikita.interfaces.menus;
 
-import dev.foton.hubcore.modules.interfaces.elements.MenuItem;
-import dev.foton.hubcore.modules.interfaces.Point;
+import com.nitkanikita.interfaces.elements.MenuItem;
+import com.nitkanikita.interfaces.Point;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.event.inventory.InventoryType;

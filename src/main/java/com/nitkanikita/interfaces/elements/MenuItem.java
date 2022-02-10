@@ -1,4 +1,4 @@
-package dev.foton.hubcore.modules.interfaces.elements;
+package com.nitkanikita.interfaces.elements;
 
 import org.bukkit.Material;
 import org.bukkit.Sound;
