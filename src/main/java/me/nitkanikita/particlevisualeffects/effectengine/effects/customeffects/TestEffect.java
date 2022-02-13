@@ -1,11 +1,11 @@
-package me.nitkanikita.particlevisualeffects.effectengine.Effects.customeffects;
+package me.nitkanikita.particlevisualeffects.effectengine.effects.customeffects;
 
-import me.nitkanikita.particlevisualeffects.effectengine.Effects.logic.PlayerEffectBasic;
+import me.nitkanikita.particlevisualeffects.effectengine.effects.logic.PlayerEffect;
 import org.bukkit.Particle;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
-public class TestEffect extends PlayerEffectBasic {
+public class TestEffect implements PlayerEffect {
 
 
     @Override

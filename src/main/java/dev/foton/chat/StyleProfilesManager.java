@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class StyleProfilesManager {
 
-    static Map<Player, PlayerStyleProfile> settings = new HashMap<>();
+    private static final Map<Player, PlayerStyleProfile> settings = new HashMap<>();
 
     public static void setProfile(Player p){
         settings.put(p,new PlayerStyleProfile(p));

@@ -31,7 +31,5 @@ public abstract class BaseRequestInput {
         return callback;
     }
 
-    public void request(boolean err){
-
-    }
+    public abstract void request(boolean err);
 }

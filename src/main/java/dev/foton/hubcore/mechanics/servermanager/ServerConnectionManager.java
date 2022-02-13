@@ -12,9 +12,6 @@ public class ServerConnectionManager {
         out.writeUTF(p.getName());
         out.writeUTF(server);
 
-        // If you don't care about the player
-        // Player player = Iterables.getFirst(Bukkit.getOnlinePlayers(), null);
-        // Else, specify them
         p.sendPluginMessage(Main.i, "BungeeCord", out.toByteArray());
     }
 }

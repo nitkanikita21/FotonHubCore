@@ -5,12 +5,10 @@ import org.bukkit.entity.Player;
 import java.util.*;
 
 public class InputsManager {
-    private static Map<Player, ArrayDeque<BaseRequestInput>> requests = new HashMap<>();
-
+    private static final Map<Player, ArrayDeque<BaseRequestInput>> requests = new HashMap<>();
     public static Deque<BaseRequestInput> getRequests(Player t) {
         return requests.get(t);
     }
-
     public static void sendRequest(BaseRequestInput r){
         if(!requests.containsKey(r.getTarget())){
             requests.put(r.getTarget(),new ArrayDeque<>());
@@ -27,7 +25,6 @@ public class InputsManager {
         }
 
     }
-
     public static void next(Player t){
         if(requests.get(t) == null)return;
         requests.get(t).pop();

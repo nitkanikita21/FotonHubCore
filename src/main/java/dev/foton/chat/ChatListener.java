@@ -14,13 +14,6 @@ public class ChatListener implements Listener {
 
     @EventHandler
     public void onChatMessage(AsyncChatEvent e) {
-        /*TextComponent base = Component.text("");
-        base = base.append(Component.text(player.getName(), TextColor.fromCSSHexString("#00сс00")));
-        base = base.append(Component.text(": ", TextColor.fromCSSHexString("#333333")));
-        base = base.append(e.originalMessage().color(TextColor.fromCSSHexString("#cccccc")));
-        e.setCancelled(true);
-        player.sendMessage(base);*/
-
         if(listener.check(e)){
             e.setCancelled(true);
             for (Player player : Bukkit.getOnlinePlayers()) {

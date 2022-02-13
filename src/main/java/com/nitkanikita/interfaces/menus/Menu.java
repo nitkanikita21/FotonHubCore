@@ -40,7 +40,7 @@ public abstract class Menu{
         this.title = title;
     }
 
-    public Menu(InventoryType inventoryBase, Component title){
+    protected Menu(InventoryType inventoryBase, Component title){
         base = inventoryBase;
         this.title = title;
     }

@@ -4,6 +4,7 @@ plugins {
     id("io.papermc.paperweight.userdev") version "1.3.3"
     id("xyz.jpenilla.run-paper") version "1.0.6"
     id("net.minecrell.plugin-yml.bukkit") version "0.5.1"
+    id ("org.sonarqube") version "3.3"
 }
 
 group = "dev.foton"
@@ -82,5 +83,12 @@ tasks {
     }
     shadowJar {
         destinationDirectory.set(file("$rootDir/out"))
+    }
+    sonarqube {
+        properties {
+            property ("sonar.host.url", System.getenv("host"))
+            property ("sonar.login", System.getenv("login"))
+            property ("sonar.projectKey", System.getenv("projectKey"))
+        }
     }
 }

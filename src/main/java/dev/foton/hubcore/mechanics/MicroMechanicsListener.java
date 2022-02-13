@@ -23,7 +23,6 @@ public final class MicroMechanicsListener implements Listener {
     public void playerJoin(PlayerJoinEvent event){
         Player p = event.getPlayer();
 
-        PlayerStyleProfile profile = StyleProfilesManager.getProfile(p);
 
         if(!Bukkit.getOfflinePlayer(p.getUniqueId()).hasPlayedBefore()){
             p.sendTitle(

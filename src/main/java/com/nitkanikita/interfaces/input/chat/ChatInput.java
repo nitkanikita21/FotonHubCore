@@ -26,8 +26,6 @@ public class ChatInput extends BaseRequestInput {
     @Override
     public void request(boolean err) {
         for (String question : questions) {
-            // target.sendMessage(question);
-
             StyleProfilesManager.getProfile(target).systemMessage(question);
         }
     }
