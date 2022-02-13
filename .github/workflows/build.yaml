@@ -4,6 +4,8 @@ on:
     branches:
       - master # or the name of your main branch
 
+
+
 jobs:
   build:
     name: Build
@@ -31,6 +33,6 @@ jobs:
       - name: Build and analyze
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          # SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-        run: ./gradlew build sonarqube --info
+        run: ./gradlew build sonarqube -Dsonar.login=0f2ccb61703384b91df33747e9dc7f015d7757b6 --info
