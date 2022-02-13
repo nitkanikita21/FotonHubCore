@@ -43,14 +43,8 @@ bukkit {
         register("admin_menu") {
             usage = "/admin_menu"
         }
-        register("games") {
-            usage = "/games"
-        }
         register("hats") {
             usage = "/hats"
-        }
-        register("spawnnpc") {
-            usage = "/spawnnpc"
         }
     }
     permissions {

@@ -6,7 +6,6 @@ import dev.foton.chat.ChatListener;
 import dev.foton.chat.StyleProfilesManager;
 import dev.foton.hubcore.mechanics.MicroMechanicsListener;
 import dev.foton.hubcore.mechanics.hats.HatsManager;
-import dev.foton.hubcore.mechanics.npc.NPCManager;
 import dev.foton.hubcore.mechanics.servermanager.ServerConnectionManager;
 import dev.foton.hubcore.modules.commands.CustomCommandBuilder;
 import com.nitkanikita.interfaces.InventoryListener;
@@ -72,16 +71,6 @@ public final class Main extends JavaPlugin {
 
                 MenuPrefabs.GENERAL_MENU(p).openMenu((Player) commandSender);
 
-            }
-        }).registryPlugin();
-
-        new CustomCommandBuilder()
-                .name("spawnnpc").executor((commandSender, strings) -> {
-            if (commandSender instanceof Player p){
-                NPCManager.getInstance().appendGameNPC(p.getLocation(),strings[0],player -> {
-                    p.sendMessage("test");
-                    ServerConnectionManager.connect(player,strings[1]);
-                });
             }
         }).registryPlugin();
 
