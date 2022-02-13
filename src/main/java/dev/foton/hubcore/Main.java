@@ -1,82 +1,97 @@
 package dev.foton.hubcore;
 
+import com.comphenix.protocol.ProtocolLibrary;
+import com.comphenix.protocol.ProtocolManager;
+import dev.foton.chat.ChatListener;
+import dev.foton.chat.StyleProfilesManager;
 import dev.foton.hubcore.mechanics.MicroMechanicsListener;
+import dev.foton.hubcore.mechanics.hats.HatsManager;
+import dev.foton.hubcore.mechanics.npc.NPCManager;
+import dev.foton.hubcore.mechanics.servermanager.ServerConnectionManager;
 import dev.foton.hubcore.modules.commands.CustomCommandBuilder;
-import dev.foton.hubcore.modules.interfaces.MenuListener;
-import dev.foton.hubcore.modules.interfaces.MenuManager;
-import dev.foton.hubcore.modules.interfaces.items.Text;
-import dev.foton.hubcore.modules.interfaces.items.ToggleButton;
-import dev.foton.hubcore.modules.interfaces.items.sub.EmptyElement;
-import dev.foton.hubcore.modules.interfaces.menu.DispancerMenu;
-import me.NitkaNikita.AdvancedColorAPI.api.types.builders.GradientTextBuilder;
-import me.NitkaNikita.AdvancedColorAPI.api.types.builders.SolidTextBuilder;
+import com.nitkanikita.interfaces.InventoryListener;
 import me.nitkanikita.particlevisualeffects.ParticleModuleListener;
 import me.nitkanikita.particlevisualeffects.effectengine.RenderEffectRunnable;
-import org.bukkit.Material;
+import net.luckperms.api.LuckPerms;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.PluginManager;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.util.Vector;
-
-import java.util.ArrayList;
 
 public final class Main extends JavaPlugin {
 
     public static Main i;
 
-    public static String format(String s){
-        return s.replaceAll("&","\u00A7");
+    public ProtocolManager getProtocolManager() {
+        return protocolManager;
     }
+    public LuckPerms getLuckperms() {
+        return luckperms;
+    }
+
+
+    private ProtocolManager protocolManager;
+    private LuckPerms luckperms;
 
     @Override
     public void onEnable() {
         // Plugin startup logic
         i = this;
 
+        protocolManager = ProtocolLibrary.getProtocolManager();
 
+        RegisteredServiceProvider<LuckPerms> provider = Bukkit.getServicesManager().getRegistration(LuckPerms.class);
+        if (provider != null) {
+            luckperms = provider.getProvider();
+        }
 
-        DispancerMenu welcomeMenu = new DispancerMenu(new GradientTextBuilder()
-                .text("&lДобро пожаловать!")
-                .addColor("#42f5a4").addColor("#fc0373")
-                .blur(0.4)
-                .build().getJsonText(), "welcome");
-
-        Text welcomeText = new Text(
-                Material.ACACIA_SIGN,
-                new SolidTextBuilder().text("&lДобро пожаловать на сервер!").color("#03fc94").build().getJsonText(),
-                "welcome_label",new ArrayList<>(),
-                new Vector(2,2,1), 1
-        );
-
-        ToggleButton noShow = new ToggleButton("&aНе показывать снова","noShow",new ArrayList<>(),
-                new Vector(2,3,1),1
-        );
-
-
-        welcomeMenu.addElement(new EmptyElement(new Vector(2,1,1)));
-        welcomeMenu.addElement(noShow);
-        welcomeMenu.addElement(welcomeText);
-
-
-        MenuManager.addMenu(welcomeMenu);
-
+        HatsManager.init();
 
         CustomCommandBuilder.setPlugin(this);
 
         getServer().getScheduler().scheduleSyncRepeatingTask(this,new RenderEffectRunnable(),0,1);
 
-        getServer().getPluginManager().registerEvents(new MenuListener(),this);
-        getServer().getPluginManager().registerEvents(new ParticleModuleListener(),this);
-        getServer().getPluginManager().registerEvents(new MicroMechanicsListener(),this);
+        PluginManager pluginManager = getServer().getPluginManager();
+        pluginManager.registerEvents(new InventoryListener(),this);
+        pluginManager.registerEvents(new ParticleModuleListener(),this);
+        pluginManager.registerEvents(new MicroMechanicsListener(),this);
+        pluginManager.registerEvents(new ChatListener(),this);
 
-        //#region удалить
+        for (Player p : Bukkit.getOnlinePlayers()) {
+            if(!StyleProfilesManager.checkRegistry(p)){
+                StyleProfilesManager.setProfile(p);
+            }
+        }
+
+        this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
 
         new CustomCommandBuilder()
                 .name("menu").executor((commandSender, strings) -> {
-            if (commandSender instanceof Player){
-                MenuManager.open((Player) commandSender,MenuManager.getMenu("welcome"));
+            if (commandSender instanceof Player p){
+
+                MenuPrefabs.GENERAL_MENU(p).openMenu((Player) commandSender);
+
             }
         }).registryPlugin();
-        //#endregion
+
+        new CustomCommandBuilder()
+                .name("spawnnpc").executor((commandSender, strings) -> {
+            if (commandSender instanceof Player p){
+                NPCManager.getInstance().appendGameNPC(p.getLocation(),strings[0],player -> {
+                    p.sendMessage("test");
+                    ServerConnectionManager.connect(player,strings[1]);
+                });
+            }
+        }).registryPlugin();
+
+        new CustomCommandBuilder()
+                .name("admin_menu").executor((commandSender, strings) -> {
+            if (commandSender instanceof Player p){
+                MenuPrefabs.ADMIN_MENU(p).openMenu((Player) commandSender);
+            }
+        }).registryPlugin();
+
 
     }
 

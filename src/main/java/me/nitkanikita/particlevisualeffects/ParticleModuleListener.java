@@ -1,6 +1,6 @@
 package me.nitkanikita.particlevisualeffects;
 
-import me.nitkanikita.particlevisualeffects.effectengine.Effects.customeffects.TestEffect;
+import me.nitkanikita.particlevisualeffects.effectengine.effects.customeffects.TestEffect;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
