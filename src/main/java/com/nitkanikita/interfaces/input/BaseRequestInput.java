@@ -2,8 +2,6 @@ package com.nitkanikita.interfaces.input;
 
 import org.bukkit.entity.Player;
 
-import java.util.List;
-import java.util.function.BiConsumer;
 import java.util.function.BiPredicate;
 
 public abstract class BaseRequestInput {

@@ -13,7 +13,7 @@ public class ChatInput extends BaseRequestInput {
         super(target, callback);
     }
 
-    List<String> questions = new ArrayList<String>();
+    List<String> questions = new ArrayList<>();
 
     public void setQuestions(List<String> questions) {
         this.questions = questions;

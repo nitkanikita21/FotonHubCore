@@ -5,6 +5,10 @@ import org.bukkit.entity.Player;
 import java.util.*;
 
 public class InputsManager {
+    private InputsManager() {
+        throw new IllegalStateException("Utility class");
+    }
+
     private static final Map<Player, ArrayDeque<BaseRequestInput>> requests = new HashMap<>();
     public static Deque<BaseRequestInput> getRequests(Player t) {
         return requests.get(t);

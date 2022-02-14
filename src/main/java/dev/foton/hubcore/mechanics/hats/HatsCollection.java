@@ -1,16 +1,14 @@
 package dev.foton.hubcore.mechanics.hats;
 
 import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
-
 import java.util.ArrayList;
-import java.util.Objects;
+import java.util.List;
 
 public class HatsCollection {
     protected String id;
     protected String name;
     protected Material icon;
-    protected ArrayList<Hat> hats = new ArrayList<>();
+    protected List<Hat> hats = new ArrayList<>();
 
     public HatsCollection(String id){
         this.id = id;
@@ -29,7 +27,7 @@ public class HatsCollection {
         return id;
     }
 
-    public ArrayList<Hat> getHats() {
+    public List<Hat> getHats() {
         return hats;
     }
 
@@ -45,7 +43,7 @@ public class HatsCollection {
         this.name = name;
     }
 
-    public void setHats(ArrayList<Hat> hats) {
+    public void setHats(List<Hat> hats) {
         this.hats = hats;
     }
 }

@@ -1,21 +1,17 @@
 package dev.foton.chat.settings;
 
-import com.comphenix.protocol.PacketType;
-import com.comphenix.protocol.ProtocolManager;
-import com.comphenix.protocol.events.PacketContainer;
-import dev.foton.hubcore.Main;
 import me.clip.placeholderapi.PlaceholderAPI;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.entity.Player;
 
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.Map;
 
 public class PlayerStyleProfile {
-    public Player player;
-    private Map<Styles, String> options = new HashMap<Styles, String>();
+    private final Player player;
+    private final Map<Styles, String> options = new EnumMap<>(Styles.class);
 
     public void setOption(Styles style, String option) {
         options.put(style, option);
@@ -70,7 +66,7 @@ public class PlayerStyleProfile {
         String prefix = PlaceholderAPI.setPlaceholders(author, "%luckperms_prefix%");
         String suffix = PlaceholderAPI.setPlaceholders(author, "%luckperms_suffix%");
 
-        String color = ((String) options.get(Styles.GENERAL_COLOR));
+        String color = (options.get(Styles.GENERAL_COLOR));
 
         start = start.append(Component.text(prefix.equals("") ? "" : prefix+" "));
         start = start.append(Component.text(author.getName()+" ",TextColor.fromCSSHexString(
@@ -79,14 +75,14 @@ public class PlayerStyleProfile {
         start = start.append(Component.text(suffix+" "));
 
         start = start.append(
-                Component.text((String)options.get(Styles.ARROW)+" ",
+                Component.text(options.get(Styles.ARROW)+" ",
                         TextColor.fromCSSHexString(
-                                (String)options.get(Styles.SUB_COLOR)
+                                options.get(Styles.SUB_COLOR)
                         ))
         );
 
         start = start.append(Component.text(content,TextColor.fromCSSHexString(
-                ((String) options.get(Styles.SPECIAL_COLOR))
+                (options.get(Styles.SPECIAL_COLOR))
         )));
 
         return start;

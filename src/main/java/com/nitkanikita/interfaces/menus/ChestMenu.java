@@ -9,7 +9,7 @@ import org.bukkit.inventory.Inventory;
 
 import java.util.Map;
 
-public class ChestMenu extends Menu implements ChestableMenu {
+public class ChestMenu extends Menu implements GridInventory {
     private int height;
 
     public ChestMenu(int height, Component title) {

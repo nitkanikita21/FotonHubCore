@@ -2,7 +2,6 @@ package dev.foton.hubcore.mechanics.hats;
 
 import me.NitkaNikita.AdvancedColorAPI.api.types.AdvancedColor;
 import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
 
 public abstract class Hat {
     protected String name;

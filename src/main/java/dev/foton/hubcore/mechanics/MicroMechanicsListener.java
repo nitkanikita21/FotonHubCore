@@ -1,7 +1,6 @@
 package dev.foton.hubcore.mechanics;
 
 import dev.foton.chat.StyleProfilesManager;
-import dev.foton.chat.settings.PlayerStyleProfile;
 import dev.foton.hubcore.Main;
 import dev.foton.hubcore.MenuPrefabs;
 import me.NitkaNikita.AdvancedColorAPI.api.types.builders.GradientTextBuilder;
@@ -39,8 +38,8 @@ public final class MicroMechanicsListener implements Listener {
 
 
 
-            Bukkit.getScheduler().scheduleSyncDelayedTask(Main.i,() -> {
-                MenuPrefabs.GENERAL_MENU(p).openMenu(p);
+            Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getInstance(),() -> {
+                MenuPrefabs.generalMenu(p).openMenu(p);
                 p.sendMessage(ChatColor.GRAY + "Что бы снова открыть данное меню, введи " + ChatColor.GOLD + " /menu");
             },60);
         }else {

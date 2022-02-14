@@ -7,6 +7,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class HatsManager {
+    private HatsManager() {
+        throw new IllegalStateException("Utility class");
+    }
+
     protected static Map<String, HatsCollection> collectionMap = new HashMap<>();
 
     public static Map<String, HatsCollection> getCollectionMap() {

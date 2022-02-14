@@ -6,7 +6,6 @@ import dev.foton.chat.ChatListener;
 import dev.foton.chat.StyleProfilesManager;
 import dev.foton.hubcore.mechanics.MicroMechanicsListener;
 import dev.foton.hubcore.mechanics.hats.HatsManager;
-import dev.foton.hubcore.mechanics.servermanager.ServerConnectionManager;
 import dev.foton.hubcore.modules.commands.CustomCommandBuilder;
 import com.nitkanikita.interfaces.InventoryListener;
 import me.nitkanikita.particlevisualeffects.ParticleModuleListener;
@@ -20,7 +19,10 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public final class Main extends JavaPlugin {
 
-    public static Main i;
+
+    public static Main getInstance(){
+        return JavaPlugin.getPlugin(Main.class);
+    }
 
     public ProtocolManager getProtocolManager() {
         return protocolManager;
@@ -36,7 +38,6 @@ public final class Main extends JavaPlugin {
     @Override
     public void onEnable() {
         // Plugin startup logic
-        i = this;
 
         protocolManager = ProtocolLibrary.getProtocolManager();
 
@@ -69,7 +70,7 @@ public final class Main extends JavaPlugin {
                 .name("menu").executor((commandSender, strings) -> {
             if (commandSender instanceof Player p){
 
-                MenuPrefabs.GENERAL_MENU(p).openMenu((Player) commandSender);
+                MenuPrefabs.generalMenu(p).openMenu((Player) commandSender);
 
             }
         }).registryPlugin();
@@ -77,7 +78,7 @@ public final class Main extends JavaPlugin {
         new CustomCommandBuilder()
                 .name("admin_menu").executor((commandSender, strings) -> {
             if (commandSender instanceof Player p){
-                MenuPrefabs.ADMIN_MENU(p).openMenu((Player) commandSender);
+                MenuPrefabs.adminMenu(p).openMenu((Player) commandSender);
             }
         }).registryPlugin();
 

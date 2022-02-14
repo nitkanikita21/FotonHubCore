@@ -1,5 +1,7 @@
+
 plugins {
     id("java")
+    id("idea")
     id("com.github.johnrengelman.shadow") version "7.1.2"
     id("io.papermc.paperweight.userdev") version "1.3.3"
     id("xyz.jpenilla.run-paper") version "1.0.6"
@@ -12,12 +14,13 @@ version = "0.1"
 
 repositories {
     mavenCentral()
-    maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
-    maven("https://oss.sonatype.org/content/groups/public/")
-    maven("https://papermc.io/repo/repository/maven-public/")
-    maven("https://jitpack.io")
-    maven("https://repo.dmulloy2.net/repository/public/")
     maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
+    maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
+    maven("https://hub.spigotmc.org/nexus/content/repositories/public/")
+    maven("https://papermc.io/repo/repository/maven-public/")
+    maven("https://oss.sonatype.org/content/groups/public/")
+    maven("https://repo.dmulloy2.net/repository/public/")
+    maven("https://jitpack.io")
 }
 
 dependencies {
@@ -26,7 +29,10 @@ dependencies {
     compileOnly("com.comphenix.protocol:ProtocolLib:4.7.0")
     compileOnly("net.luckperms:api:5.3")
     compileOnly("me.clip:placeholderapi:2.11.1")
-    // compileOnly("org.spigotmc:spigot:1.18.1-R0.1-SNAPSHOT")
+//    testImplementation("com.github.seeseemelk:MockBukkit-v1.18:1.15.5")
+
+    testImplementation(platform("org.junit:junit-bom:5.8.2"))
+    testImplementation("org.junit.jupiter:junit-jupiter")
 }
 
 // Здесь генерируется plugin.yml, настраивайте его тут.

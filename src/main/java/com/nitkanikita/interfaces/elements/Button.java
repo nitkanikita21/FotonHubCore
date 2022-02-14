@@ -6,36 +6,40 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.function.Consumer;
+import java.util.Objects;
 
-public class Button extends MenuItem {
+public abstract class Button extends MenuItem {
 
     private Sound sound = Sound.sound(
             Key.key("minecraft:ui.button.click"), Sound.Source.MASTER, 0.25f, 1.1f
     );
 
-    public Button(@NotNull ItemStack stack, Consumer<InventoryClickEvent> event) throws IllegalArgumentException {
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Button button)) return false;
+        if (!super.equals(o)) return false;
+        return Objects.equals(sound, button.sound);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), sound);
+    }
+
+    protected Button(@NotNull ItemStack stack) throws IllegalArgumentException {
         super(stack);
-        this.event = event;
     }
 
-    public Consumer<InventoryClickEvent> getEvent() {
-        return event;
-    }
-
-    public Button event(Consumer<InventoryClickEvent> event) {
-        this.event = event;
-        return this;
-    }
     public Button sound(Sound sound){
         this.sound = sound;
         return this;
     }
 
-    private Consumer<InventoryClickEvent> event;
+    public abstract void event(InventoryClickEvent e);
 
     public void onClick(InventoryClickEvent e) {
         e.getWhoClicked().playSound(sound);
-        event.accept(e);
+        event(e);
     }
 }

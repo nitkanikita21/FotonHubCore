@@ -7,7 +7,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class PlayerEffectsStorage {
-    private static Map<Player, PlayerEffect> players = new HashMap<>();
+    private PlayerEffectsStorage() { throw new IllegalStateException("Utility class"); }
+
+    private static final Map<Player, PlayerEffect> players = new HashMap<>();
 
     public static void setPlayerEffect(Player p, PlayerEffect effect){
         if(!players.containsKey(p)){

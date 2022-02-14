@@ -2,6 +2,7 @@ package com.nitkanikita.interfaces.utils;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
+import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemFlag;
@@ -13,6 +14,7 @@ import org.bukkit.inventory.meta.SkullMeta;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 public class ItemStackBuilder {
     private final ItemStack itemStack;
@@ -176,8 +178,8 @@ public class ItemStackBuilder {
      * @return the ItemBuilder
      */
     public ItemStackBuilder setColor(Color color) {
-        if (itemMeta instanceof LeatherArmorMeta)
-            ((LeatherArmorMeta) itemMeta).setColor(color);
+        if (itemMeta instanceof LeatherArmorMeta meta)
+            meta.setColor(color);
         return this;
     }
 
@@ -200,9 +202,9 @@ public class ItemStackBuilder {
      * @param owner skull owner
      * @return the ItemBuilder
      */
-    public ItemStackBuilder setOwner(String owner) {
-        if (this.itemMeta instanceof SkullMeta)
-            ((SkullMeta) this.itemMeta).setOwner(owner);
+    public ItemStackBuilder setOwner(UUID owner) {
+        if (this.itemMeta instanceof SkullMeta meta)
+            meta.setOwningPlayer(Bukkit.getOfflinePlayer(owner));
         return this;
     }
 

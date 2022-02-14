@@ -12,12 +12,14 @@ import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryClickEvent;
 
 public class MenuPrefabs {
 
+    private MenuPrefabs() { throw new IllegalStateException("Utility class"); }
 
 
-    public static Menu GENERAL_MENU(Player viewer){
+    public static Menu generalMenu(Player viewer){
         PlayerStyleProfile profile = StyleProfilesManager.getProfile(viewer);
 
         ChestMenu chestMenu = new ChestMenu(3, Component.text(
@@ -31,11 +33,13 @@ public class MenuPrefabs {
                                 "Настройки",
                                 TextColor.fromHexString(profile.getOption(PlayerStyleProfile.Styles.GENERAL_COLOR))
                         ))
-                        .build(),
-                e -> {
-
-                }
-        ));
+                        .build()
+        ){
+            @Override
+            public void event(InventoryClickEvent e) {
+                settingsMenu(viewer).openMenu(viewer);
+            }
+        });
 
         chestMenu.setSlot(new Point(4,1), new Button(
                 new ItemStackBuilder(Material.COMPASS)
@@ -47,11 +51,16 @@ public class MenuPrefabs {
                                 "У нас чета можна",
                                 TextColor.fromHexString(profile.getOption(PlayerStyleProfile.Styles.GRAY_COLOR))
                         ))
-                        .build(),
-                e -> {
-
-                }
-        ));
+                        .build()
+        ){
+            @Override
+            public void event(InventoryClickEvent e) {
+                e.getWhoClicked().sendMessage(Component.text(
+                        "В разработке",
+                        TextColor.fromHexString(profile.getOption(PlayerStyleProfile.Styles.GRAY_COLOR))
+                ));
+            }
+        });
 
         chestMenu.setSlot(new Point(7,1), new Button(
                 new ItemStackBuilder(Material.NETHER_STAR)
@@ -59,11 +68,16 @@ public class MenuPrefabs {
                                 "Прочее",
                                 TextColor.fromHexString(profile.getOption(PlayerStyleProfile.Styles.GENERAL_COLOR))
                         ))
-                        .build(),
-                e -> {
-
-                }
-        ));
+                        .build()
+        ){
+            @Override
+            public void event(InventoryClickEvent e) {
+                e.getWhoClicked().sendMessage(Component.text(
+                        "В разработке",
+                        TextColor.fromHexString(profile.getOption(PlayerStyleProfile.Styles.GRAY_COLOR))
+                ));
+            }
+        });
 
         if(viewer.hasPermission(Permissions.ADMIN_PANEL+"")){
             chestMenu.setSlot(new Point(4,0), new Button(
@@ -76,17 +90,19 @@ public class MenuPrefabs {
                                     "У нас чета можна",
                                     TextColor.fromHexString(profile.getOption(PlayerStyleProfile.Styles.GRAY_COLOR))
                             ))
-                            .build(),
-                    e -> {
-                        ADMIN_MENU(viewer).openMenu(viewer);
-                    }
-            ));
+                            .build()
+            ){
+                @Override
+                public void event(InventoryClickEvent e) {
+                    adminMenu(viewer).openMenu(viewer);
+                }
+            });
         }
 
-        return (Menu) chestMenu;
+        return chestMenu;
     }
 
-    public static Menu ADMIN_MENU(Player viewer){
+    public static Menu adminMenu(Player viewer){
         PlayerStyleProfile profile = StyleProfilesManager.getProfile(viewer);
 
         ChestMenu menu = new ChestMenu(3,Component.text(
@@ -103,27 +119,46 @@ public class MenuPrefabs {
                                 "Перезагрузка плагинов сервера",
                                 TextColor.fromHexString(profile.getOption(PlayerStyleProfile.Styles.WARNING_COLOR))
                         ))
-                        .build(),
-                e -> {
-                    profile.systemMessage(
-                            "Внимание! Начинается перезагрузка сервера",
-                            PlayerStyleProfile.SystemMessageType.WARNING
-                    );
-                    viewer.closeInventory();
-                    Bukkit.reload();
-                }
-        ));
+                        .build()
+        ){
+            @Override
+            public void event(InventoryClickEvent e) {
+                profile.systemMessage(
+                        "Внимание! Начинается перезагрузка сервера",
+                        PlayerStyleProfile.SystemMessageType.WARNING
+                );
+                viewer.closeInventory();
+                Bukkit.reload();
+            }
+        });
 
         return menu;
     }
 
-    public static Menu SETTINGS_MENU(Player viewer){
+    public static Menu settingsMenu(Player viewer){
         PlayerStyleProfile profile = StyleProfilesManager.getProfile(viewer);
 
         ChestMenu menu = new ChestMenu(3,Component.text(
                 "Настройки",
                 TextColor.fromHexString(profile.getOption(PlayerStyleProfile.Styles.GENERAL_COLOR))
         ));
+
+        menu.setSlot(new Point(7,1), new Button(
+                new ItemStackBuilder(Material.NETHER_STAR)
+                        .setDisplayName(Component.text(
+                                "Прочее",
+                                TextColor.fromHexString(profile.getOption(PlayerStyleProfile.Styles.GENERAL_COLOR))
+                        ))
+                        .build()
+        ){
+            @Override
+            public void event(InventoryClickEvent e) {
+                e.getWhoClicked().sendMessage(Component.text(
+                        "В разработке",
+                        TextColor.fromHexString(profile.getOption(PlayerStyleProfile.Styles.GRAY_COLOR))
+                ));
+            }
+        });
 
         return menu;
     }

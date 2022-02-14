@@ -8,6 +8,10 @@ import java.util.Map;
 
 public class StyleProfilesManager {
 
+    private StyleProfilesManager() {
+        throw new IllegalStateException("Utility class");
+    }
+
     private static final Map<Player, PlayerStyleProfile> settings = new HashMap<>();
 
     public static void setProfile(Player p){

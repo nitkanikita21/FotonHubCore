@@ -7,7 +7,7 @@ import org.bukkit.command.CommandSender;
 import java.util.function.BiConsumer;
 
 public class CustomCommand implements CommandExecutor {
-    public BiConsumer<CommandSender, String[]> lambda;
+    public final BiConsumer<CommandSender, String[]> lambda;
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
