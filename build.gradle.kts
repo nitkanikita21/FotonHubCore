@@ -33,6 +33,14 @@ dependencies {
 
     testImplementation(platform("org.junit:junit-bom:5.8.2"))
     testImplementation("org.junit.jupiter:junit-jupiter")
+    
+    //lombok
+    //добавил ради теста
+    compileOnly("org.projectlombok:lombok:1.18.22")
+    annotationProcessor("org.projectlombok:lombok:1.18.22")
+
+    testCompileOnly ("org.projectlombok:lombok:1.18.22")
+    testAnnotationProcessor ("org.projectlombok:lombok:1.18.22")
 }
 
 // Здесь генерируется plugin.yml, настраивайте его тут.
