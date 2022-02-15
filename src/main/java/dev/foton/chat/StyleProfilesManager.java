@@ -28,4 +28,8 @@ public class StyleProfilesManager {
     public static boolean checkRegistry(Player p){
         return settings.containsKey(p);
     }
+
+    public static void resetOptions(Player p){
+        settings.put(p,new PlayerStyleProfile(p));
+    }
 }

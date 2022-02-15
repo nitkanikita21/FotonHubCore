@@ -1,5 +1,10 @@
 package dev.foton.hubcore;
 
+import com.nitkanikita.interfaces.elements.MenuItem;
+import com.nitkanikita.interfaces.input.BaseRequestInput;
+import com.nitkanikita.interfaces.input.InputsManager;
+import com.nitkanikita.interfaces.input.chat.ChatInputBuilder;
+import com.nitkanikita.interfaces.menus.DispenserMenu;
 import dev.foton.chat.StyleProfilesManager;
 import dev.foton.chat.settings.PlayerStyleProfile;
 import com.nitkanikita.interfaces.Point;
@@ -146,20 +151,171 @@ public class MenuPrefabs {
         menu.setSlot(new Point(7,1), new Button(
                 new ItemStackBuilder(Material.NETHER_STAR)
                         .setDisplayName(Component.text(
-                                "Прочее",
+                                "Настройка стилей",
                                 TextColor.fromHexString(profile.getOption(PlayerStyleProfile.Styles.GENERAL_COLOR))
                         ))
                         .build()
         ){
             @Override
             public void event(InventoryClickEvent e) {
-                e.getWhoClicked().sendMessage(Component.text(
-                        "В разработке",
-                        TextColor.fromHexString(profile.getOption(PlayerStyleProfile.Styles.GRAY_COLOR))
-                ));
+                styleSettings(viewer).openMenu(viewer);
             }
         });
 
         return menu;
     }
+    public static Menu styleSettings(Player viewer){
+        PlayerStyleProfile profile = StyleProfilesManager.getProfile(viewer);
+
+        DispenserMenu menu = new DispenserMenu(Component.text(
+                "Настройка стилей",
+                TextColor.fromHexString(profile.getOption(PlayerStyleProfile.Styles.GENERAL_COLOR))
+        ));
+
+        menu.setSlot(new Point(1, 0), new MenuItem(
+                new ItemStackBuilder(Material.SPRUCE_SIGN)
+                        .setDisplayName(Component.text(
+                                "Предпросмотр стилей: ",
+                                TextColor.fromHexString(profile.getOption(PlayerStyleProfile.Styles.GENERAL_COLOR))
+                        ))
+                        .addLore(Component.space())
+                        .addLore(Component.space())
+                        .addLore(profile.renderChatMessage(viewer,"Ты тоже видишь это сообщение?"))
+                        .addLore(Component.space())
+                        .addLore(profile.renderSystemMessage(
+                                "Тут что-то очень интересное!",
+                                PlayerStyleProfile.SystemMessageType.INFO
+                        ))
+                        .addLore(Component.space())
+                        .addLore(profile.renderSystemMessage(
+                                "Кажется что-то не в порядке.",
+                                PlayerStyleProfile.SystemMessageType.WARNING
+                        ))
+                        .addLore(Component.space())
+                        .addLore(profile.renderSystemMessage(
+                                "Похоже что я что-то сломал...",
+                                PlayerStyleProfile.SystemMessageType.ERROR
+                        ))
+                        .build()
+        ) {});
+
+        menu.setSlot(new Point(0,1), new Button(
+                new ItemStackBuilder(Material.RED_DYE)
+                        .setDisplayName(Component.text(
+                                "Усттановить главный цвет",
+                                TextColor.fromHexString(profile.getOption(PlayerStyleProfile.Styles.GENERAL_COLOR))
+                        ))
+                        .addLore(Component.text(
+                                "Введите в чат цвет в HEX формате",
+                                TextColor.fromHexString(profile.getOption(PlayerStyleProfile.Styles.GRAY_COLOR))
+                        ))
+                        .build()
+        ){
+            @Override
+            public void event(InventoryClickEvent e) {
+                BaseRequestInput inp = new ChatInputBuilder().addQuestion("Введите в чат цвет в HEX формате:").callback(
+                        (player, s) -> {
+                            if(!s.startsWith("#") && s.length() != 7){
+                                profile.systemMessage("Неверный формат. Например #12FF34", PlayerStyleProfile.SystemMessageType.ERROR);
+                                return false;
+                            }
+
+                            profile.setOption(PlayerStyleProfile.Styles.GENERAL_COLOR,s);
+                            profile.systemMessage("Цвет успешно установлен!");
+
+                            return true;
+                        }
+                ).target(viewer).build();
+
+                InputsManager.sendRequest(inp);
+            }
+        });
+
+        menu.setSlot(new Point(1,1), new Button(
+                new ItemStackBuilder(Material.LIME_DYE)
+                        .setDisplayName(Component.text(
+                                "Усттановить дополнительный цвет",
+                                TextColor.fromHexString(profile.getOption(PlayerStyleProfile.Styles.GENERAL_COLOR))
+                        ))
+                        .addLore(Component.text(
+                                "Введите в чат цвет в HEX формате",
+                                TextColor.fromHexString(profile.getOption(PlayerStyleProfile.Styles.GRAY_COLOR))
+                        ))
+                        .build()
+        ){
+            @Override
+            public void event(InventoryClickEvent e) {
+                BaseRequestInput inp = new ChatInputBuilder().addQuestion("Введите в чат цвет в HEX формате:").callback(
+                        (player, s) -> {
+                            if(!s.startsWith("#") && s.length() != 7){
+                                profile.systemMessage("Неверный формат. Например #12FF34", PlayerStyleProfile.SystemMessageType.ERROR);
+                                return false;
+                            }
+
+                            profile.setOption(PlayerStyleProfile.Styles.SUB_COLOR,s);
+                            profile.systemMessage("Цвет успешно установлен!");
+
+                            return true;
+                        }
+                ).target(viewer).build();
+
+                InputsManager.sendRequest(inp);
+            }
+        });
+
+        menu.setSlot(new Point(2,1), new Button(
+                new ItemStackBuilder(Material.BLUE_DYE)
+                        .setDisplayName(Component.text(
+                                "Усттановить специальный цвет",
+                                TextColor.fromHexString(profile.getOption(PlayerStyleProfile.Styles.GENERAL_COLOR))
+                        ))
+                        .addLore(Component.text(
+                                "Введите в чат цвет в HEX формате",
+                                TextColor.fromHexString(profile.getOption(PlayerStyleProfile.Styles.GRAY_COLOR))
+                        ))
+                        .build()
+        ){
+            @Override
+            public void event(InventoryClickEvent e) {
+                BaseRequestInput inp = new ChatInputBuilder().addQuestion("Введите в чат цвет в HEX формате:").callback(
+                        (player, s) -> {
+                            if(!s.startsWith("#") && s.length() != 7){
+                                profile.systemMessage("Неверный формат. Например #12FF34", PlayerStyleProfile.SystemMessageType.ERROR);
+                                return false;
+                            }
+
+                            profile.setOption(PlayerStyleProfile.Styles.SPECIAL_COLOR,s);
+                            profile.systemMessage("Цвет успешно установлен!");
+
+                            return true;
+                        }
+                ).target(viewer).build();
+
+                InputsManager.sendRequest(inp);
+            }
+        });
+
+        menu.setSlot(new Point(1,2), new Button(
+                new ItemStackBuilder(Material.END_CRYSTAL)
+                        .setDisplayName(Component.text(
+                                "Сбросить",
+                                TextColor.fromHexString(profile.getOption(PlayerStyleProfile.Styles.GENERAL_COLOR))
+                        ))
+                        .addLore(Component.text(
+                                "Сбрасывает настройки цветов до начальных",
+                                TextColor.fromHexString(profile.getOption(PlayerStyleProfile.Styles.GRAY_COLOR))
+                        ))
+                        .build()
+        ){
+            @Override
+            public void event(InventoryClickEvent e) {
+                StyleProfilesManager.resetOptions(viewer);
+                profile.systemMessage("Стили были успешно сброшены.");
+            }
+        });
+
+
+        return menu;
+    }
+
 }

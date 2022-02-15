@@ -11,10 +11,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class ItemStackBuilder {
     private final ItemStack itemStack;
@@ -122,7 +119,7 @@ public class ItemStackBuilder {
         line = line.decorations(decorations).compact();
 
         List<Component> lore = this.itemMeta.lore();
-        assert lore != null;
+        if(lore == null)lore = new ArrayList<>();
         lore.add(line);
         this.itemMeta.lore(lore);
         return this;

@@ -3,7 +3,6 @@ package com.nitkanikita.interfaces.menus;
 import com.nitkanikita.interfaces.elements.Button;
 import com.nitkanikita.interfaces.elements.MenuItem;
 import net.kyori.adventure.text.Component;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
@@ -29,7 +28,6 @@ public abstract class Menu{
 
 
     protected Map<Integer, MenuItem> elements = new HashMap<>();
-    protected InventoryType base;
     protected Component title;
 
     public Component getTitle() {
@@ -40,8 +38,7 @@ public abstract class Menu{
         this.title = title;
     }
 
-    protected Menu(InventoryType inventoryBase, Component title){
-        base = inventoryBase;
+    protected Menu(Component title){
         this.title = title;
     }
 
@@ -73,9 +70,7 @@ public abstract class Menu{
         }
     }
 
-    protected Inventory createInventory(){
-        return Bukkit.createInventory(null, base, title);
-    }
+    protected abstract Inventory createInventory();
 
 
 }
